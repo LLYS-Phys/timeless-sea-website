@@ -20,11 +20,11 @@ export class GalleryComponent implements OnInit {
   constructor(private galleryService: GalleryService) {}
 
   ngOnInit() {
-    this.interiorImages = this.galleryService.getHouseImages()
-    this.blueRoomImages = this.galleryService.getBlueRoomImages()
-    this.greenRoomImages = this.galleryService.getGreenRoomImages()
-    this.redRoomImages = this.galleryService.getRedRoomImages()
-    this.outImages = this.galleryService.getOutImages()
-    this.gardenImages = this.galleryService.getGardenImages()
+    this.interiorImages = this.galleryService.getImages('house')
+    this.blueRoomImages = this.galleryService.getImages('blue')
+    this.greenRoomImages = this.galleryService.getImages('green')
+    this.redRoomImages = this.galleryService.getImages('red')
+    this.outImages = this.galleryService.getImages('out')
+    this.gardenImages = this.galleryService.getImages('garden')
   }
 }
