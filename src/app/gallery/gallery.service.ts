@@ -1,9 +1,17 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { ImageItem } from "ng-gallery";
+import { Observable } from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class GalleryService {
-    getImages( type: 'house' | 'blue' | 'red' | 'green' | 'out' | 'garden', allImages: string[] ) {
+    constructor ( private http: HttpClient ) {}
+
+    fetchImages () {
+        return this.http.get<Observable<string>>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/images.json')
+    }
+    
+    filterImages( type: 'house' | 'blue' | 'red' | 'green' | 'out' | 'garden', allImages: string[] ) {
         let images: ImageItem[] = []
         allImages
             .filter((image) => JSON.parse(image).type === type)
@@ -18,13 +26,5 @@ export class GalleryService {
             )
         })
         return images
-    }
-
-    transformImageString(imageString: string) {
-        return imageString
-            .replaceAll("'", "\"")
-            .replace("name", "\"name\"")
-            .replace("alt", "\"alt\"")
-            .replace("type", "\"type\"")
     }
 }
