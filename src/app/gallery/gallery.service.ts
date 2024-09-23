@@ -19,4 +19,12 @@ export class GalleryService {
         })
         return images
     }
+
+    transformImageString(imageString: string) {
+        return imageString
+            .replaceAll("'", "\"")
+            .replace("name", "\"name\"")
+            .replace("alt", "\"alt\"")
+            .replace("type", "\"type\"")
+    }
 }
