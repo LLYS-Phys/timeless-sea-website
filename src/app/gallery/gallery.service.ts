@@ -8,7 +8,14 @@ export class GalleryService {
         allImages
             .filter((image) => JSON.parse(image).type === type)
             .forEach((image) => {
-                images.push(new ImageItem({src: '/images/' + JSON.parse(image).name, thumb: '/images/' + JSON.parse(image).name, alt: JSON.parse(image).alt}))
+                images.push(new ImageItem(
+                    {
+                        src: '/images/' + JSON.parse(image).name, 
+                        thumb: '/images/' + JSON.parse(image).name, 
+                        alt: JSON.parse(image).alt
+                    }
+                )
+            )
         })
         return images
     }
