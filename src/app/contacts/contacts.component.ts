@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, DestroyRef } from '@angular/core';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
+import { Observable } from 'rxjs';
+import { EmailJsType } from './contacts.model';
 
 @Component({
   selector: 'app-contacts',
@@ -9,12 +12,35 @@ import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
   styleUrl: './contacts.component.scss'
 })
 export class ContactsComponent {
+  constructor(private http: HttpClient, private destroyRef: DestroyRef){}
+
+  credentials: EmailJsType = {public_key: '', template_id: '', service_id: ''}
+
+  private fetchEmailjsCredentials () {
+    return this.http.get<EmailJsType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/emailjs.json')
+  }
+
+  ngOnInit() {
+    const credentialsSubscription = this.fetchEmailjsCredentials().subscribe({
+      next: (data) => {
+        this.credentials!.public_key = data.public_key
+        this.credentials!.service_id = data.service_id
+        this.credentials!.template_id = data.template_id
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+
+    this.destroyRef.onDestroy(() => credentialsSubscription.unsubscribe())
+  }
+
   public sendEmail(e: Event) {
     e.preventDefault();
 
     emailjs
-      .sendForm('service_zoo53hi', 'template_usamvtl', e.target as HTMLFormElement, {
-        publicKey: 'LPAjwHkkePZIBgOue',
+      .sendForm(this.credentials!.service_id, this.credentials!.template_id, e.target as HTMLFormElement, {
+        publicKey: this.credentials!.public_key,
       })
       .then(
         () => {

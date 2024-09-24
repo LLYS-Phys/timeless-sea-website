@@ -1,6 +1,8 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { GalleryModule, GalleryItem } from 'ng-gallery';
 import { GalleryService } from './gallery.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-gallery',
@@ -21,10 +23,14 @@ export class GalleryComponent implements OnInit {
 
   allImages: string[] = []
 
-  constructor(private galleryService: GalleryService, private destroRef: DestroyRef) {}
+  constructor(private galleryService: GalleryService, private destroRef: DestroyRef, private http: HttpClient) {}
+
+  private fetchImages () {
+    return this.http.get<Observable<string>>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/images.json')
+  }
 
   ngOnInit() {
-    const imagesSubscription = this.galleryService.fetchImages()
+    const imagesSubscription = this.fetchImages()
       .subscribe({
         next: (data) => {
           data.forEach((el: string) => {
