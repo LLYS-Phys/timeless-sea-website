@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, DestroyRef } from '@angular/core';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
-import { Observable } from 'rxjs';
 import { EmailJsType } from './contacts.model';
 
 @Component({
