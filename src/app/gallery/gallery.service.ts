@@ -11,7 +11,7 @@ export class GalleryService {
         return this.http.get<Observable<string>>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/images.json')
     }
     
-    filterImages( type: 'house' | 'blue' | 'red' | 'green' | 'out' | 'garden', allImages: string[] ) {
+    filterImages( type: string, allImages: string[] ) {
         let images: ImageItem[] = []
         allImages
             .filter((image) => JSON.parse(image).type === type)

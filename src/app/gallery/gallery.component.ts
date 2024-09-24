@@ -10,7 +10,7 @@ import { GalleryService } from './gallery.service';
   styleUrl: './gallery.component.scss'
 })
 export class GalleryComponent implements OnInit {
-  allImages: {name: string, images: GalleryItem[], type: 'house' | 'blue' | 'red' | 'green' | 'out' | 'garden'}[] = [
+  allImagesType: {name: string, images: GalleryItem[], type: 'house' | 'blue' | 'red' | 'green' | 'out' | 'garden'}[] = [
     {name: 'interiorImages', images: [], type: 'house'},
     {name: 'blueRoomImages', images: [], type: 'blue'},
     {name: 'greenRoomImages', images: [], type: 'green'},
@@ -19,7 +19,7 @@ export class GalleryComponent implements OnInit {
     {name: 'gardenImages', images: [], type: 'garden'}
   ]
 
-  allImagesString: string[] = []
+  allImages: string[] = []
 
   constructor(private galleryService: GalleryService, private destroRef: DestroyRef) {}
 
@@ -28,12 +28,12 @@ export class GalleryComponent implements OnInit {
       .subscribe({
         next: (data) => {
           data.forEach((el: string) => {
-            this.allImagesString.push(el)
+            this.allImages.push(el)
           })
         },
         complete: () => {
-          this.allImages.forEach((imageObj) => {
-            imageObj.images = this.galleryService.filterImages(imageObj.type, this.allImagesString)
+          this.allImagesType.forEach((imageObj) => {
+            imageObj.images = this.galleryService.filterImages(imageObj.type, this.allImages)
           })
         },
         error: (err) => {
@@ -45,6 +45,6 @@ export class GalleryComponent implements OnInit {
   }
 
   findImageObj (key: string) {
-    return this.allImages.find((image) => image.name === key)!.images
+    return this.allImagesType.find((image) => image.name === key)
   }
 }
