@@ -15,6 +15,9 @@ export class GalleryService {
         let images: ImageItem[] = []
         allImages
             .filter((image) => JSON.parse(image).type === type)
+            .sort((a,b) => {
+                return JSON.parse(a).order - JSON.parse(b).order
+            })
             .forEach((image) => {
                 images.push(new ImageItem(
                     {
