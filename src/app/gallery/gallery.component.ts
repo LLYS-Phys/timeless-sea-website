@@ -1,8 +1,6 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { GalleryModule, GalleryItem } from 'ng-gallery';
 import { GalleryService } from './gallery.service';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-gallery',
@@ -12,32 +10,31 @@ import { Observable } from 'rxjs';
   styleUrl: './gallery.component.scss'
 })
 export class GalleryComponent implements OnInit {
-  interiorImages: GalleryItem[] = []
-  blueRoomImages: GalleryItem[] = []
-  greenRoomImages: GalleryItem[] = []
-  redRoomImages: GalleryItem[] = []
-  outImages: GalleryItem[] = []
-  gardenImages: GalleryItem[] = []
+  allImages: {name: string, images: GalleryItem[], type: 'house' | 'blue' | 'red' | 'green' | 'out' | 'garden'}[] = [
+    {name: 'interiorImages', images: [], type: 'house'},
+    {name: 'blueRoomImages', images: [], type: 'blue'},
+    {name: 'greenRoomImages', images: [], type: 'green'},
+    {name: 'redRoomImages', images: [], type: 'red'},
+    {name: 'outImages', images: [], type: 'out'},
+    {name: 'gardenImages', images: [], type: 'garden'}
+  ]
 
-  allImages: string[] = []
+  allImagesString: string[] = []
 
-  constructor(private galleryService: GalleryService, private http: HttpClient, private destroRef: DestroyRef) {}
+  constructor(private galleryService: GalleryService, private destroRef: DestroyRef) {}
 
   ngOnInit() {
     const imagesSubscription = this.galleryService.fetchImages()
       .subscribe({
         next: (data) => {
           data.forEach((el: string) => {
-            this.allImages.push(el)
+            this.allImagesString.push(el)
           })
         },
         complete: () => {
-          this.interiorImages = this.galleryService.filterImages('house', this.allImages),
-          this.blueRoomImages = this.galleryService.filterImages('blue', this.allImages),
-          this.greenRoomImages = this.galleryService.filterImages('green', this.allImages),
-          this.redRoomImages = this.galleryService.filterImages('red', this.allImages),
-          this.outImages = this.galleryService.filterImages('out', this.allImages),
-          this.gardenImages = this.galleryService.filterImages('garden', this.allImages)
+          this.allImages.forEach((imageObj) => {
+            imageObj.images = this.galleryService.filterImages(imageObj.type, this.allImagesString)
+          })
         },
         error: (err) => {
           console.log(err)
@@ -45,5 +42,9 @@ export class GalleryComponent implements OnInit {
       })
 
     this.destroRef.onDestroy(() => imagesSubscription.unsubscribe())
+  }
+
+  findImageObj (key: string) {
+    return this.allImages.find((image) => image.name === key)!.images
   }
 }
