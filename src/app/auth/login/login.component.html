@@ -1,0 +1,49 @@
+<h2>This page is for admins only, please authenticate to proceed!</h2>
+<p>If you are not an admin, please go back to the 
+    <a [routerLink]="['/']" routerLinkActive="router-link-active">Home</a>
+    page.
+</p>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field class="formField">
+        <mat-label>Enter your email</mat-label>
+        <input
+            matInput
+            placeholder="pat@example.com"
+            (blur)="updateErrorMessage()"
+            required
+            id="email" 
+            name="email" 
+            formControlName="email"
+        />
+        @if (form.controls.email.invalid) {
+            <mat-error>{{errorMessage()}}</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input 
+            matInput 
+            [type]="hide() ? 'password' : 'text'"
+            id="password" 
+            name="password" 
+            formControlName="password" 
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    </mat-form-field>
+    <div class="actions">
+        <button mat-stroked-button>
+            <span>Log In</span>
+            <mat-icon iconPositionEnd>arrow_right_alt</mat-icon>
+        </button>
+    </div>
+</form>

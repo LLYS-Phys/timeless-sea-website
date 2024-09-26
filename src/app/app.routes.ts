@@ -26,6 +26,24 @@ export const routes: Routes = [
         loadComponent: () => import('./gallery/gallery.component').then((comp) => comp.GalleryComponent)
     },
     {
+        path: 'auth',
+        children: [
+            {
+                path: '',
+                redirectTo: 'login',
+                pathMatch: 'full'
+            },
+            {
+                path: 'login',
+                loadComponent: () => import('./auth/login/login.component').then(comp => comp.LoginComponent)
+            },
+            {
+                path: 'admin',
+                loadComponent: () => import('./auth/admin/admin.component').then(comp => comp.AdminComponent)
+            }
+        ]
+    },
+    {
         path: '**',
         component: NotFoundComponent
     }

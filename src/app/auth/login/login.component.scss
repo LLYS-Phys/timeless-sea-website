@@ -1,0 +1,46 @@
+:host{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: inherit;
+    p{
+        color: gray;
+        a{
+            color: gray;
+            text-decoration: none;
+            font-weight: bold;
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+    }
+    form{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        button{
+            border-color: transparent;
+            background-color: transparent;
+            cursor: pointer;
+        }
+        .formField{
+            width: 20rem;
+        }
+        .actions{
+            display: flex;
+            justify-content: center;
+            button{
+                width: 50%;
+                border-radius: 0.5rem;
+                background-color: black;
+                color: white;
+                opacity: 1;
+                &:hover{
+                    opacity: 0.8;
+                }
+            }
+        }
+    }
+}

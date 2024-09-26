@@ -1,0 +1,6 @@
+@if (!isAuthenticated) {
+    <app-login></app-login>
+}
+@else{
+    <a [routerLink]="['/']" (click)="onLogout()">Logout</a>
+}
