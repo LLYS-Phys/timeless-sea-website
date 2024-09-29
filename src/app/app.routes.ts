@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { routes as userRoutes } from './auth/auth.routes';
 
 export const routes: Routes = [
     {
@@ -27,21 +28,7 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
-        children: [
-            {
-                path: '',
-                redirectTo: 'login',
-                pathMatch: 'full'
-            },
-            {
-                path: 'login',
-                loadComponent: () => import('./auth/login/login.component').then(comp => comp.LoginComponent)
-            },
-            {
-                path: 'admin',
-                loadComponent: () => import('./auth/admin/admin.component').then(comp => comp.AdminComponent)
-            }
-        ]
+        children: userRoutes
     },
     {
         path: '**',
