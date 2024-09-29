@@ -69,9 +69,9 @@ export class LoginComponent implements OnInit{
 
   updateErrorMessage() {
     if (this.form.controls.email.hasError('required')) {
-      this.errorMessage.set('You must enter a value');
+      this.errorMessage.set('Трябва да въведете email');
     } else if (this.form.controls.email.hasError('email')) {
-      this.errorMessage.set('Not a valid email');
+      this.errorMessage.set('Невалиден email');
     } else {
       this.errorMessage.set('');
     }
