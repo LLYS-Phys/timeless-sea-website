@@ -1,0 +1,38 @@
+:host{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    height: 5rem;
+    * {
+        z-index: inherit;
+    }
+    nav{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        .homeLink{
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            img{
+                max-width: 5rem;
+            }
+        }
+        a{
+            text-decoration: none;
+            color: black;
+            &:hover{
+                opacity: 0.8;
+            }
+        }
+        ul{
+            display: flex;
+            gap: 1.5rem;
+            list-style-type: none;
+        }
+    }
+}
