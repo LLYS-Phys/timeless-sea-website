@@ -25,13 +25,13 @@
     </button>
 </nav>
 <div class="mobile-menu-list" [ngClass]="mobile_menu_opened ? 'active' : ''">
-    <a [routerLink]="['about']" (click)="toggleMobileMenu($event)">
+    <a [routerLink]="['about']">
         <span>За къщата</span>
     </a>
-    <a [routerLink]="['gallery']" (click)="toggleMobileMenu($event)">
+    <a [routerLink]="['gallery']">
         <span>Галерия</span>
     </a>
-    <a [routerLink]="['contacts']" (click)="toggleMobileMenu($event)">
+    <a [routerLink]="['contacts']">
         <span>Контакти</span>
     </a>
 </div>

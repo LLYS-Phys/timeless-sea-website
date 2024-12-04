@@ -67,8 +67,8 @@
             flex-direction: column;
             background-image: linear-gradient(rgba(var(--yellow), 0.65), rgba(var(--yellow), 1) 80%, rgba(194, 178, 128, 0.1) 99%);
             padding: 1rem 2rem 2rem 2rem;
-            margin-top: -30vh;
-            transition: margin-top 0.5s;
+            margin-top: -80vh;
+            transition: margin-top 0.33s;
             &.active { margin-top: -1rem; }
             a{
                 text-decoration: none;
