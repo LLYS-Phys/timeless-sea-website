@@ -1,10 +1,32 @@
-<p>contacts works!</p>
-<form class="contact-form" (submit)="sendEmail($event)">
-    <label>Name</label>
-    <input type="text" name="user_name">
-    <label>Email</label>
-    <input type="email" name="user_email">
-    <label>Message</label>
-    <textarea name="message"></textarea>
-    <input type="submit" value="Send">
+<form class="contact-form" (submit)="sendEmail($event)" [formGroup]="emailForm">
+    <mat-form-field>
+        <mat-label>Име</mat-label>
+        <input matInput type="text" formControlName="name">
+        @if (this.emailForm.controls.name.invalid && this.emailForm.controls.name.touched) {
+            <mat-error>Моля въведете вашето име!</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput type="text" formControlName="email">
+        @if (this.emailForm.controls.email.invalid && this.emailForm.controls.email.touched) {
+            <mat-error>Моля въведете валиден email адрес!</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Съобщение</mat-label>
+        <textarea matInput formControlName="message" rows="5"></textarea>
+        @if (this.emailForm.controls.message.invalid && this.emailForm.controls.message.touched) {
+            <mat-error>Моля въведете вашето съобщение!</mat-error>
+        }
+    </mat-form-field>
+    <div class="button-container">
+        <button type="submit" [disabled]="buttonStatus || this.email_sent" mat-fab aria-label="Submit Email Form">
+            <mat-icon>send</mat-icon>
+            Изпрати email
+        </button>
+    </div>
+    @if (this.email_sent) {
+        <p class="email-sent">Email sent successfully!</p>
+    }
 </form>
