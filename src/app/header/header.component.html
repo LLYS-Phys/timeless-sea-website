@@ -3,7 +3,7 @@
         <img src="timeless-sea.png"/>
         <span>Морско Безвремие</span>
     </a>
-    <ul>
+    <ul class="desktop-menu">
         <li>
             <a [routerLink]="['about']">
                 <span>За къщата</span>
@@ -20,4 +20,18 @@
             </a>
         </li>
     </ul>
+    <button class="mobile-menu" mat-fab aria-label="Mobile menu toggle" (click)="toggleMobileMenu($event)">
+        <mat-icon>menu</mat-icon>
+    </button>
 </nav>
+<div class="mobile-menu-list" [ngClass]="mobile_menu_opened ? 'active' : ''">
+    <a [routerLink]="['about']" (click)="toggleMobileMenu($event)">
+        <span>За къщата</span>
+    </a>
+    <a [routerLink]="['gallery']" (click)="toggleMobileMenu($event)">
+        <span>Галерия</span>
+    </a>
+    <a [routerLink]="['contacts']" (click)="toggleMobileMenu($event)">
+        <span>Контакти</span>
+    </a>
+</div>
