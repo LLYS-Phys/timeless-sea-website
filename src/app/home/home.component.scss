@@ -14,9 +14,9 @@ h1 {
         font-size: 2rem;
         font-family: 'Material Icons';
         position: absolute;
-        background-color: rgba(255,255,255,0.5);
         padding: 0 0.5rem;
         max-width: 80%;
+        backdrop-filter: blur(5rem);
     }
     img {
         max-width: 100%;
@@ -28,8 +28,19 @@ h1 {
         position: absolute;
         bottom: 5%;
         background-color: rgba(var(--blue));
-        color: rgb(240,240,240);
+        color: rgb(var(--text));
         font-size: 1.25rem;
-        &:hover { box-shadow: 0rem 0rem 1rem 0.25rem rgb(var(--sand)); }
+        &:hover { 
+            box-shadow: 0rem 0rem 0.25rem 0.0625rem rgb(var(--sand)); 
+            mat-icon { animation: pulse 1s infinite; }
+        }
+        mat-icon {
+            color: rgba(255,0,0,0.8);
+        }
     }
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.33); }
+    100% { transform: scale(1); }
 }
