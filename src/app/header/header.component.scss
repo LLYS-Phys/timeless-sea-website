@@ -13,7 +13,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0.5rem 2rem 1rem 2rem;
+        padding: 0.5rem 4rem 1rem 4rem;
         .homeLink{
             display: flex;
             align-items: center;
@@ -31,6 +31,7 @@
                 padding-bottom: 0.25rem;
                 background: linear-gradient(currentColor 0 0) bottom left / var(--underline-width, 0%) 0.1rem no-repeat;
                 transition: background-size 0.5s;
+                display: flex;
             }
             &:hover span{
                 --underline-width: 100%;
@@ -38,7 +39,7 @@
         }
         .desktop-menu{
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
             list-style-type: none;
         }
         .mobile-menu{
@@ -52,6 +53,7 @@
     }
     @media screen and (max-width: 1000px) {
         nav {
+            padding: 0.5rem 1rem 1rem 1rem;
             .homeLink span {
                 display: none;
             }
@@ -66,7 +68,7 @@
             display: flex;
             flex-direction: column;
             background-image: linear-gradient(rgba(var(--yellow), 0.65), rgba(var(--yellow), 1) 80%, rgba(194, 178, 128, 0.1) 99%);
-            padding: 1rem 2rem 2rem 2rem;
+            padding: 2rem 2rem 4rem 2rem;
             margin-top: -80vh;
             transition: margin-top 0.33s;
             &.active { margin-top: -1rem; }
@@ -74,12 +76,13 @@
                 text-decoration: none;
                 color: rgb(var(--text));
                 font-weight: 500;
-                margin: 0.5rem 0;
+                margin: 1rem 0;
                 font-size: 1.25rem;
                 span {
                     padding-bottom: 0.25rem;
                     background: linear-gradient(currentColor 0 0) bottom left / var(--underline-width, 0%) 0.1rem no-repeat;
                     transition: background-size 0.5s;
+                    display: flex;
                 }
                 &:hover span{
                     --underline-width: 100%;

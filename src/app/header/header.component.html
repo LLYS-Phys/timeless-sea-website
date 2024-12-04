@@ -6,17 +6,17 @@
     <ul class="desktop-menu">
         <li>
             <a [routerLink]="['about']">
-                <span>За къщата</span>
+                <span><mat-icon>house</mat-icon>&nbsp;За къщата</span>
             </a>
         </li>
         <li>
             <a [routerLink]="['gallery']">
-                <span>Галерия</span>
+                <span><mat-icon>perm_media</mat-icon>&nbsp;Галерия</span>
             </a>
         </li>
         <li>
             <a [routerLink]="['contacts']">
-                <span>Контакти</span>
+                <span><mat-icon>book_online</mat-icon>&nbsp;Контакти</span>
             </a>
         </li>
     </ul>
@@ -26,12 +26,12 @@
 </nav>
 <div class="mobile-menu-list" [ngClass]="mobile_menu_opened ? 'active' : ''">
     <a [routerLink]="['about']">
-        <span>За къщата</span>
+        <span><mat-icon>house</mat-icon>&nbsp;За къщата</span>
     </a>
     <a [routerLink]="['gallery']">
-        <span>Галерия</span>
+        <span><mat-icon>perm_media</mat-icon>&nbsp;Галерия</span>
     </a>
     <a [routerLink]="['contacts']">
-        <span>Контакти</span>
+        <span><mat-icon>book_online</mat-icon>&nbsp;Контакти</span>
     </a>
 </div>
