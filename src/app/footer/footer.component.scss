@@ -1,6 +1,7 @@
 :host{
     width: 100%;
-    background-image: linear-gradient(rgba(194,178,128,0.1) 1%,rgba(var(--yellow),0.9) 10%, rgba(var(--yellow),0.9) 80%, rgba(var(--blue),0.9) 95%);
+    // background-color: rgba(var(--blue),0.8);
+    background-image: linear-gradient(rgba(194,178,128,0.1) 1%,rgba(var(--blue),0.5) 4%, rgba(var(--blue),0.5) 92%, rgba(var(--darkblue),0.9) 97%);
     .footer-wrapper {
         padding: 2rem 2rem 3rem 2rem;
         display: flex;

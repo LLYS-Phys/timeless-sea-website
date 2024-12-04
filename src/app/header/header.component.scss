@@ -5,7 +5,7 @@
     width: 100%;
     z-index: 1000;
     height: 5rem;
-    background-image: linear-gradient(rgba(var(--blue),0.9),rgba(var(--yellow),0.9) 55%, rgba(var(--yellow),0.9) 75%, rgba(194,178,128,0.1) 99%);
+    background-image: linear-gradient(rgba(var(--blue),0.9),rgba(var(--darkblue),0.9) 55%, rgba(var(--darkblue),0.9) 88%, rgba(194,178,128,0.1) 99%);
     * {
         z-index: inherit;
     }
@@ -67,8 +67,8 @@
         .mobile-menu-list{
             display: flex;
             flex-direction: column;
-            background-image: linear-gradient(rgba(var(--yellow), 0.65), rgba(var(--yellow), 1) 80%, rgba(194, 178, 128, 0.1) 99%);
-            padding: 2rem 2rem 4rem 2rem;
+            background-image: linear-gradient(rgba(194, 178, 128, 0.1) 1%, rgba(var(--darkblue), 1) 5%, rgba(var(--darkblue), 1) 96%, rgba(194, 178, 128, 0.1) 99%);
+            padding: 2rem;
             margin-top: -80vh;
             transition: margin-top 0.33s;
             &.active { margin-top: -1rem; }

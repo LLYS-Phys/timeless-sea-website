@@ -30,7 +30,7 @@
             mat-icon { animation: pulse 1s infinite; }
         }
         mat-icon {
-            color: rgba(255,0,0,0.8);
+            color: rgb(var(--yellow));
         }
     }
     @media screen and (max-width: 1000px) {
@@ -55,7 +55,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        color: rgba(var(--darkblue));
+        color: rgba(var(--text));
         p {
             width: 80%;
         }
@@ -64,15 +64,16 @@
             font-size: 2rem;
             height: 2rem;
             width: 2rem;
+            color: rgb(var(--blue));
         }
         button {
-            background-color: rgba(var(--blue));
+            background-color: rgb(var(--blue));
             color: rgb(var(--text));
             font-size: 1.25rem;
             transition: filter 0.33s;
             margin-top: 1rem;
             &:hover { 
-                filter: drop-shadow(0.0125rem 0.0325rem 0.25rem rgb(var(--yellow)));
+                filter: drop-shadow(0.0125rem 0.0325rem 0.75rem rgb(var(--yellow)));
             }
             mat-icon {
                 color: rgb(var(--yellow));
