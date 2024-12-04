@@ -4,8 +4,7 @@
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: white;
-    height: 5rem;
+    background-image: linear-gradient(rgba(var(--blue),0.9),rgba(var(--sand),0.9) 55%, rgba(var(--sand),0.9) 75%, rgba(194,178,128,0.1) 99%);
     * {
         z-index: inherit;
     }
@@ -13,20 +12,27 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1rem;
+        padding: 0.5rem 2rem 1rem 2rem;
         .homeLink{
             display: flex;
             align-items: center;
             gap: 1rem;
             img{
                 max-width: 5rem;
+                border-radius: 50%;
             }
         }
         a{
             text-decoration: none;
-            color: black;
-            &:hover{
-                opacity: 0.9;
+            color: rgb(var(--text));
+            font-weight: 500;
+            span {
+                padding-bottom: 0.25rem;
+                background: linear-gradient(currentColor 0 0) bottom left / var(--underline-width, 0%) 0.1rem no-repeat;
+                transition: background-size 0.5s;
+            }
+            &:hover span{
+                --underline-width: 100%;
             }
         }
         ul{

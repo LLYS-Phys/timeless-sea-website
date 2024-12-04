@@ -1,0 +1,35 @@
+h1 {
+    font-style: oblique;
+    text-align: center;
+    font-size: 4rem;
+    font-family: 'Material Icons';
+}
+.image-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    h2 {
+        font-style: oblique;
+        text-align: center;
+        font-size: 2rem;
+        font-family: 'Material Icons';
+        position: absolute;
+        background-color: rgba(255,255,255,0.5);
+        padding: 0 0.5rem;
+        max-width: 80%;
+    }
+    img {
+        max-width: 100%;
+        height: 70vh;
+        object-fit: cover;
+        border-radius: 2rem;
+    }
+    button {
+        position: absolute;
+        bottom: 5%;
+        background-color: rgba(var(--blue));
+        color: rgb(240,240,240);
+        font-size: 1.25rem;
+        &:hover { box-shadow: 0rem 0rem 1rem 0.25rem rgb(var(--sand)); }
+    }
+}
