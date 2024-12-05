@@ -1,24 +1,80 @@
 :host{
-    .contact-form{
-        width: 50%;
-        padding: 2rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        .button-container {
-            width: 100%;
-            display: flex;
+    display: flex;
+    flex-wrap: wrap;
+    .platforms {
+        width: 100%;
+        h2 {
+            font-style: oblique;
+            font-family: 'Material Icons';
+            text-align: center;
+        }
+        .buttons {
             justify-content: center;
-            button {
-                margin-top: 0.5rem;
-                width: auto;
-                padding: 0.5rem 1rem;
+            display: flex;
+            gap: 1rem;
+            a {
+                border-color: rgb(var(--darkblue));
             }
         }
-        .email-sent {
-            color: green;
+    }
+    .contact-form-section{
+        width: 50%;
+        padding: 2rem;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        h2 {
+            font-style: oblique;
+            font-family: 'Material Icons';
             text-align: center;
-            margin-top: 0.5rem;
+        }
+        .static-contacts {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0 2rem 0;
+            .phone, .email, .facebook {
+                display: flex;
+                gap: 0.5rem;
+                text-decoration: none;
+                color: rgb(var(--text));
+                &:hover{
+                    color: rgb(var(--darkblue));
+                }
+            }
+        }
+        form{ 
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 70%;
+            .button-container {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                button {
+                    margin-top: 0.5rem;
+                    width: auto;
+                    padding: 0.5rem 1rem;
+                }
+            }
+            .email-sent {
+                color: green;
+                text-align: center;
+                margin-top: 0.5rem;
+            }
+        }
+    }
+    .map-section{
+        width: 50%;
+        padding: 2rem;
+        box-sizing: border-box;
+        iframe{
+            padding: 2rem;
+            width: calc(100% - 4rem);
+            height: 100%;
+            border: none;
         }
     }
 }

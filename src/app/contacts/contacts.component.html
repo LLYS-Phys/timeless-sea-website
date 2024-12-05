@@ -1,32 +1,57 @@
-<form class="contact-form" (submit)="sendEmail($event)" [formGroup]="emailForm">
-    <mat-form-field>
-        <mat-label>Име</mat-label>
-        <input matInput type="text" formControlName="name">
-        @if (this.emailForm.controls.name.invalid && this.emailForm.controls.name.touched) {
-            <mat-error>Моля въведете вашето име!</mat-error>
-        }
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="email">
-        @if (this.emailForm.controls.email.invalid && this.emailForm.controls.email.touched) {
-            <mat-error>Моля въведете валиден email адрес!</mat-error>
-        }
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Съобщение</mat-label>
-        <textarea matInput formControlName="message" rows="5"></textarea>
-        @if (this.emailForm.controls.message.invalid && this.emailForm.controls.message.touched) {
-            <mat-error>Моля въведете вашето съобщение!</mat-error>
-        }
-    </mat-form-field>
-    <div class="button-container">
-        <button type="submit" [disabled]="buttonStatus || this.email_sent" mat-fab aria-label="Submit Email Form">
-            <mat-icon>send</mat-icon>
-            Изпрати email
-        </button>
+<section class="platforms">
+    <h2>Запазете своето място при нас още днес!</h2>
+    <section class="buttons">
+        <a mat-stroked-button href="https://www.booking.com/hotel/bg/timeless-sea.bg.html" target="_blank">Booking</a>
+        <a mat-stroked-button href="https://bg.airbnb.com/rooms/1161564040928933998" target="_blank">AirBnb</a>
+        <a mat-stroked-button href="https://vila.bg/house-morsko-bezvremie-7588.html" target="_blank">Вила.бг</a>
+        <a mat-stroked-button href="https://pochivka.bg/kashta-morsko-bezvremie-o60955" target="_blank">Почивка.бг</a>
+    </section>
+</section>
+<section class="contact-form-section">
+    <h2>Свържете се с нас:</h2>
+    <div class="static-contacts">
+        <a class="phone" href="tel:+359886841912"><mat-icon>phone</mat-icon> +359 886 841 912</a>
+        <a class="email" href="mailto:seatime2024@gmail.com"><mat-icon>email</mat-icon> {{ "seatime2024@gmail.com" }}</a>
+        <a class="facebook" href="https://www.facebook.com/profile.php?id=61560373783883" target="_blank"><mat-icon>facebook</mat-icon>Facebook</a>
     </div>
-    @if (this.email_sent) {
-        <p class="email-sent">Email sent successfully!</p>
-    }
-</form>
+    <form class="contact-form" (submit)="sendEmail($event)" [formGroup]="emailForm">
+        <mat-form-field>
+            <mat-label>Име</mat-label>
+            <input matInput type="text" formControlName="name">
+            @if (this.emailForm.controls.name.invalid && this.emailForm.controls.name.touched) {
+                <mat-error>Моля въведете вашето име!</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="text" formControlName="email">
+            @if (this.emailForm.controls.email.invalid && this.emailForm.controls.email.touched) {
+                <mat-error>Моля въведете валиден email адрес!</mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Съобщение</mat-label>
+            <textarea matInput formControlName="message" rows="5"></textarea>
+            @if (this.emailForm.controls.message.invalid && this.emailForm.controls.message.touched) {
+                <mat-error>Моля въведете вашето съобщение!</mat-error>
+            }
+        </mat-form-field>
+        <div class="button-container">
+            <button type="submit" [disabled]="buttonStatus || this.email_sent" mat-fab aria-label="Submit Email Form">
+                <mat-icon>send</mat-icon>&nbsp;
+                Изпрати email
+            </button>
+        </div>
+        @if (this.email_sent) {
+            <p class="email-sent">Email sent successfully!</p>
+        }
+    </form>
+</section>
+<section class="map-section">
+    <iframe
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD2y3DQggo2Bdd3gyhIsaCRc8mfC5XCPS8&q=Петрова+нива+16+Царево">
+    </iframe>
+</section>
