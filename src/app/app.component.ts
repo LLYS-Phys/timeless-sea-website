@@ -19,4 +19,12 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authService.autoLogin()
   }
+
+  scrollToTop() {
+    window.scroll({ 
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth' 
+     });
+ }
 }
