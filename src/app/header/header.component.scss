@@ -5,7 +5,7 @@
     width: 100%;
     z-index: 1000;
     height: 5rem;
-    background-image: linear-gradient(rgba(var(--blue),0.9),rgba(var(--darkblue),0.9) 55%, rgba(var(--darkblue),0.9) 88%, rgba(194,178,128,0.1) 99%);
+    background-image: linear-gradient(rgba(var(--blue),0.9),rgba(var(--darkblue),0.9) 55%, rgba(var(--darkblue),0.9) 88%, var(--background-rgba) 99%);
     * {
         z-index: inherit;
     }
