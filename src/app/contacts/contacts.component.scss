@@ -17,8 +17,10 @@
             a {
                 font-size: 1.25rem;
                 padding: 2rem 3rem;
+                opacity: 0.6;
+                transition: opacity 0.33s;
                 &:hover {
-                    box-shadow: 0 0 0.125rem 0.125rem rgb(var(--yellow));
+                    opacity: 1;
                 }
             }
         }
