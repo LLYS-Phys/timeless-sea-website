@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-contacts',
@@ -16,11 +17,12 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './contacts.component.scss'
 })
 export class ContactsComponent {
-  constructor(private http: HttpClient, private destroyRef: DestroyRef){}
+  constructor(private http: HttpClient, private destroyRef: DestroyRef, private sanitizer: DomSanitizer){}
 
   credentials: EmailJsType = {public_key: '', template_id: '', service_id: ''}
 
   email_sent: boolean = false
+  googleMapsUrl: SafeUrl | null = null;
 
   emailForm = new FormGroup({
     name: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
@@ -36,7 +38,18 @@ export class ContactsComponent {
     return this.http.get<EmailJsType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/emailjs.json')
   }
 
+  private fetchGoogleMapsApiKey () {
+    return this.http.get<{api_key: string}>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/googlemaps.json')
+  }
+
   ngOnInit() {
+    const googleMapsCredential = this.fetchGoogleMapsApiKey().subscribe({
+      next: (data) => {
+        this.googleMapsUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.google.com/maps/embed/v1/place?key=" + data.api_key + "&q=Петрова+нива+16+Царево")
+      },
+      error: (err) => console.log(err)
+    })
+
     const credentialsSubscription = this.fetchEmailjsCredentials().subscribe({
       next: (data) => {
         this.credentials!.public_key = data.public_key
@@ -48,7 +61,10 @@ export class ContactsComponent {
       }
     })
 
-    this.destroyRef.onDestroy(() => credentialsSubscription.unsubscribe())
+    this.destroyRef.onDestroy(() => {
+      credentialsSubscription.unsubscribe()
+      googleMapsCredential.unsubscribe()
+    })
   }
 
   public sendEmail(e: Event) {
