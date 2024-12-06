@@ -2,25 +2,35 @@
     display: flex;
     justify-content: center;
     position: relative;
-    h2 {
-        font-style: oblique;
+    .title-holder{
         text-align: center;
-        font-size: 2rem;
-        font-family: 'Material Icons';
         position: absolute;
-        padding: 0 0.5rem;
         max-width: 80%;
-        backdrop-filter: blur(5rem);
+        color: white;
+        top: 40%;
+        z-index: 1;
+        h1, h2 {
+            font-family: 'Material Icons'; 
+            font-style: oblique;
+        }
+        h1 {
+            font-size: 4rem;
+            padding-bottom: 1rem;
+        }
+        h2 {
+            font-size: 2rem;
+        }
     }
     img {
-        max-width: 100%;
-        height: 70vh;
+        width: 100%;
+        max-height: 92.5vh;
         object-fit: cover;
-        border-radius: 2rem;
+        object-position: top;
+        filter: brightness(0.75);
     }
     button {
         position: absolute;
-        bottom: 5%;
+        bottom: 15%;
         background-color: rgba(var(--blue));
         color: rgb(var(--text));
         font-size: 1.25rem;
@@ -33,69 +43,113 @@
             color: rgb(var(--yellow));
         }
     }
-    @media screen and (max-width: 1000px) {
-        h2 {
-            display: none;
-        }
-    }
 }
 .information {
     display: flex;
     margin: 3rem;
-    .text, img {
-        width: 50%;
-    }
-    .text {
-        font-style: oblique;
-        text-align: center;
-        font-size: 2rem;
-        font-family: 'Material Icons';
-        line-height: 1.25;
+    flex-direction: column;
+    .row {
+        width: 100%;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: rgba(var(--text));
-        p {
-            width: 80%;
+        margin-top: 2rem;
+        .text, img {
+            width: 50%;
+            max-height: 60vh;
         }
-        mat-icon {
-            line-height: 1.25;
+        .text {
+            font-style: oblique;
+            text-align: center;
             font-size: 2rem;
-            height: 2rem;
-            width: 2rem;
-            color: rgb(var(--blue));
-        }
-        button {
-            background-color: rgb(var(--blue));
-            color: rgb(var(--text));
-            font-size: 1.25rem;
-            transition: filter 0.33s;
-            margin-top: 1rem;
-            &:hover { 
-                filter: drop-shadow(0.0125rem 0.0325rem 0.75rem rgb(var(--yellow)));
+            font-family: 'Material Icons';
+            line-height: 1.25;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgba(var(--text));
+            p {
+                width: 80%;
             }
             mat-icon {
-                color: rgb(var(--yellow));
-                line-height: initial;
+                line-height: 1.25;
+                font-size: 2rem;
+                height: 2rem;
+                width: 2rem;
+                color: rgb(var(--blue));
+            }
+            button {
+                background-color: rgb(var(--blue));
+                color: rgb(var(--text));
+                font-size: 1.25rem;
+                transition: filter 0.33s;
+                margin-top: 1rem;
+                &:hover { 
+                    filter: drop-shadow(0.0125rem 0.0325rem 0.75rem rgb(var(--yellow)));
+                }
+                mat-icon {
+                    color: rgb(var(--yellow));
+                    line-height: initial;
+                }
             }
         }
-    }
-    img{
-        border-radius: 2rem;
+        img{
+            border-radius: 2rem;
+            object-fit: cover;
+            object-position: top;
+        }
     }
 }
 @media screen and (max-width: 1000px) {
-    .information{
-        margin: 3rem 1rem;
-        .text {
-            width: 100%;
-            p {
-                width: 90%;
+    .image-container { 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .title-holder{
+            top: unset;
+            bottom: 30%;
+            h1, h2{
+                margin-bottom: 0;
+            }
+            h1 {
+                font-size: 3rem;
+                line-height: 1.25;
+            }
+            h2 {
+                font-size: 2rem;
             }
         }
         img {
-            display: none;
+            height: 93vh;
+        }
+    }
+    .information{
+        margin: 5rem 1rem 1rem 1rem;
+        .row {
+            flex-direction: column;
+            .text, img {
+                width: 100%;
+                margin-bottom: 1rem;
+                max-height: unset;
+            }
+            .text {
+                p {
+                    width: 100%;
+                }
+            }
+        }
+        .row1 {
+            .text{
+                order: 2;
+            }
+        }
+    }
+}
+@media screen and (max-width: 464px) {
+    .image-container { 
+        .title-holder{
+            h2{
+                display: none;
+            }
         }
     }
 }
