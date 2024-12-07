@@ -1,13 +1,29 @@
-<p>gallery works!</p>
-<h2>House</h2>
-<gallery [items]="findImageObj('interiorImages')!.images" id="findImageObj('interiorImages')!.name" style="height: 50vw"></gallery>
-<h2>Blue room</h2>
-<gallery [items]="findImageObj('blueRoomImages')!.images" id="findImageObj('blueRoomImages')!.name" style="height: 50vw"></gallery>
-<h2>Green room</h2>
-<gallery [items]="findImageObj('greenRoomImages')!.images" id="findImageObj('greenRoomImages')!.name" style="height: 50vw"></gallery>
-<h2>Red room</h2>
-<gallery [items]="findImageObj('redRoomImages')!.images" id="findImageObj('redRoomImages')!.name" style="height: 50vw"></gallery>
-<h2>Out</h2>
-<gallery [items]="findImageObj('outImages')!.images" id="findImageObj('outImages')!.name" style="height: 50vw"></gallery>
-<h2>Garden</h2>
-<gallery [items]="findImageObj('gardenImages')!.images" id="findImageObj('gardenImages')!.name" style="height: 50vw"></gallery>
+<h2>Разгледайте всички снимки на къщата:</h2>
+<section class="gallery-container-row">
+    <button class="gallery-container-entry" (click)="openGallery(['blueRoomImages', 'greenRoomImages', 'redRoomImages'], 'allRoomsImages')">
+        <h3>Спални</h3>
+        <img src="/images/GreenRoom.jpg">
+    </button>
+    <button class="gallery-container-entry" (click)="openGallery(['gardenImages'], 'gardenImages')">
+        <h3>Градина</h3>
+        <img src="/images/Jacuzzi.png">
+    </button>
+</section>
+<section class="gallery-container-row">
+    <button class="gallery-container-entry" (click)="openGallery(['interiorImages'], 'interiorImages')">
+        <h3>Интериор</h3>
+        <img src="/images/Kitchen.png">
+    </button>
+    <button class="gallery-container-entry" (click)="openGallery(['outImages'], 'outImages')">
+        <h3>Екстериор</h3>
+        <img src="/images/Out15.jpeg">
+    </button>
+</section>
+<div class="modal hidden">
+    <div class="content">
+        <button mat-fab aria-label="Close gallery modal" class="close" (click)="closeGallery()">
+            <mat-icon>close</mat-icon>
+        </button>
+        <gallery [items]="currentGalleryImages!" id="currentGalleryName" style="height: 95vh;"></gallery>
+    </div>
+</div>

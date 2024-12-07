@@ -46,3 +46,4 @@ html, body { height: 100%; }
   --background-rgba: rgba(194,178,128,0.1);
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: var(--background-rgba); }
+body:has(.active-gallery) { overflow-y: hidden; }

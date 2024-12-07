@@ -1,17 +1,22 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
-import { GalleryModule, GalleryItem } from 'ng-gallery';
+import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
+import { GalleryModule, GalleryItem, ImageItem } from 'ng-gallery';
 import { GalleryService } from './gallery.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { GalleryComponent } from 'ng-gallery';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [GalleryModule],
+  imports: [GalleryModule, MatIconModule, MatButtonModule],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss'
 })
-export class GalleryComponent implements OnInit {
+export class GalleryPageComponent implements OnInit {
+  @ViewChild(GalleryComponent) galleryComponent: GalleryComponent | null = null;
+  
   allImagesType: {name: string, images: GalleryItem[], type: 'house' | 'blue' | 'red' | 'green' | 'out' | 'garden'}[] = [
     {name: 'interiorImages', images: [], type: 'house'},
     {name: 'blueRoomImages', images: [], type: 'blue'},
@@ -22,6 +27,8 @@ export class GalleryComponent implements OnInit {
   ]
 
   allImages: string[] = []
+  currentGalleryImages: ImageItem[] | null = null
+  currentGalleryName: string | null = null
 
   constructor(private galleryService: GalleryService, private destroRef: DestroyRef, private http: HttpClient) {}
 
@@ -52,5 +59,24 @@ export class GalleryComponent implements OnInit {
 
   findImageObj (key: string) {
     return this.allImagesType.find((image) => image.name === key)
+  }
+
+  openGallery(target: string[], name: string) {
+    document.querySelector(".modal")?.classList.add("active-gallery")
+    this.currentGalleryImages = this.getAllImages(target)
+    this.currentGalleryName = name
+    console.log(this.galleryComponent)
+  }
+  closeGallery(){
+    document.querySelector(".modal")?.classList.remove("active-gallery")
+    this.currentGalleryImages = null
+    this.currentGalleryName = null
+    this.galleryComponent?.reset()
+  }
+
+  getAllImages(imageObjKeys: string[]): any[] {
+    return imageObjKeys
+        .map((key) => this.findImageObj(key)?.images || [])
+        .flat();
   }
 }

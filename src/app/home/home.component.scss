@@ -35,6 +35,7 @@
         color: rgb(var(--text));
         font-size: 1.25rem;
         transition: filter 0.33s;
+        max-width: 95%;
         &:hover { 
             filter: drop-shadow(0.0125rem 0.0325rem 0.25rem rgb(var(--yellow)));
             mat-icon { animation: pulse 1s infinite; }
@@ -99,7 +100,7 @@
         }
     }
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1024px) {
     .image-container { 
         display: flex;
         flex-direction: column;

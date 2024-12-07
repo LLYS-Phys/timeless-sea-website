@@ -24,7 +24,7 @@ export const routes: Routes = [
     },
     {
         path: 'gallery',
-        loadComponent: () => import('./gallery/gallery.component').then((comp) => comp.GalleryComponent)
+        loadComponent: () => import('./gallery/gallery.component').then((comp) => comp.GalleryPageComponent)
     },
     {
         path: 'auth',
