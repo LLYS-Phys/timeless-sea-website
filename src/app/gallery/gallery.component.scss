@@ -89,8 +89,8 @@
     @media screen and (max-width: 1024px) {
         .gallery-container-row {
             flex-direction: column;
-            margin: 0.5rem;
-            gap: 0.5rem;
+            margin: 2rem;
+            gap: 2rem;
             .gallery-container-entry {
                 width: 100%;
                 h3 {
@@ -100,6 +100,12 @@
                     filter: brightness(0.5);
                 }
             }
+        }
+    }
+    @media screen and (max-width: 464px) {
+        .gallery-container-row {
+            margin: 0.5rem;
+            gap: 0.5rem;
         }
     }
 }
