@@ -41,9 +41,9 @@ html, body { height: 100%; }
   --blue: 114,175,220;
   --yellow: 220,212,114;
   --red: 220,114,122;
-  --darkblue: 60,145,207;
+  --darkblue: 73,152,210;
   --text: 50,50,50;
-  --background-rgba: rgba(194,178,128,0.1);
+  --background-rgba: rgba(232,217,217,0.1);
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: var(--background-rgba); }
 body:has(.active-gallery) { overflow-y: hidden; }

@@ -64,6 +64,8 @@
             justify-content: center;
             gap: 2rem;
             margin: 3rem 0 2rem 0;
+            max-width: 70%;
+            flex-wrap: wrap;
             .phone, .email, .facebook {
                 display: flex;
                 gap: 0.5rem;

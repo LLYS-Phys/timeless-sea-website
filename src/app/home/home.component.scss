@@ -37,11 +37,10 @@
         transition: filter 0.33s;
         max-width: 95%;
         &:hover { 
-            filter: drop-shadow(0.0125rem 0.0325rem 0.25rem rgb(var(--yellow)));
             mat-icon { animation: pulse 1s infinite; }
         }
         mat-icon {
-            color: rgb(var(--yellow));
+            color: rgb(var(--red));
         }
     }
 }
@@ -84,11 +83,8 @@
                 font-size: 1.25rem;
                 transition: filter 0.33s;
                 margin-top: 1rem;
-                &:hover { 
-                    filter: drop-shadow(0.0125rem 0.0325rem 0.75rem rgb(var(--yellow)));
-                }
                 mat-icon {
-                    color: rgb(var(--yellow));
+                    color: rgb(var(--text));
                     line-height: initial;
                 }
             }
