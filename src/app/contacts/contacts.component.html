@@ -1,37 +1,41 @@
-<section class="platforms">
-    <h2>Запазете своето място при нас още днес!</h2>
-    <section class="buttons">
-        <a class="booking" mat-stroked-button href="https://www.booking.com/hotel/bg/timeless-sea.bg.html" target="_blank">Booking</a>
-        <a class="airbnb" mat-stroked-button href="https://bg.airbnb.com/rooms/1161564040928933998" target="_blank">AirBnb</a>
-        <a class="vila" mat-stroked-button href="https://vila.bg/house-morsko-bezvremie-7588.html" target="_blank">Вила.бг</a>
-        <a class="pochivka" mat-stroked-button href="https://pochivka.bg/kashta-morsko-bezvremie-o60955" target="_blank">Почивка.бг</a>
-    </section>
-</section>
-<section class="contact-form-section">
+<section class="heading">
     <h2>Свържете се с нас:</h2>
     <div class="static-contacts">
         <a class="phone" href="tel:+359886841912"><mat-icon>phone</mat-icon> +359 886 841 912</a>
         <a class="email" href="mailto:seatime2024@gmail.com"><mat-icon>email</mat-icon> {{ "seatime2024@gmail.com" }}</a>
         <a class="facebook" href="https://www.facebook.com/profile.php?id=61560373783883" target="_blank"><mat-icon>facebook</mat-icon>Facebook</a>
     </div>
+</section>
+<section class="contact-form-section">
+    <h2>Запазете своето място при нас:</h2>
     <form class="contact-form" (submit)="sendEmail($event)" [formGroup]="emailForm">
         <mat-form-field>
             <mat-label>Име</mat-label>
-            <input matInput type="text" formControlName="name">
+            <input matInput type="text" formControlName="name" name="user_name">
             @if (this.emailForm.controls.name.invalid && this.emailForm.controls.name.touched) {
                 <mat-error>Моля въведете вашето име!</mat-error>
             }
         </mat-form-field>
         <mat-form-field>
             <mat-label>Email</mat-label>
-            <input matInput type="text" formControlName="email">
+            <input matInput type="text" formControlName="email" name="user_email">
             @if (this.emailForm.controls.email.invalid && this.emailForm.controls.email.touched) {
                 <mat-error>Моля въведете валиден email адрес!</mat-error>
             }
         </mat-form-field>
         <mat-form-field>
+            <mat-label>Изберете начална и крайна дата</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Начална дата" formControlName="start_date" name="start_date">
+              <input matEndDate placeholder="Крайна дата" formControlName="end_date" name="end_date">
+            </mat-date-range-input>
+            <mat-hint>ДД/ММ/ГГГГ – ДД/ММ/ГГГГ</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <mat-form-field>
             <mat-label>Съобщение</mat-label>
-            <textarea matInput formControlName="message" rows="5"></textarea>
+            <textarea matInput formControlName="message" rows="5" name="message"></textarea>
             @if (this.emailForm.controls.message.invalid && this.emailForm.controls.message.touched) {
                 <mat-error>Моля въведете вашето съобщение!</mat-error>
             }
@@ -39,11 +43,20 @@
         <div class="button-container">
             <button type="submit" [disabled]="buttonStatus || this.email_sent" mat-fab aria-label="Submit Email Form">
                 <mat-icon>send</mat-icon>&nbsp;
-                Изпрати email
+                Резервирай
             </button>
         </div>
         @if (this.email_sent) {
-            <p class="email-sent">Email sent successfully!</p>
+            <div class="email-sent">
+                <p>Получихме вашата резервация!</p>
+                <p>Ще се свържем с вас скоро!</p>
+            </div>
+        }
+        @if (this.email_failed) {
+            <div class="email-failed">
+                <p>Имаше проблем с изпращането!</p>
+                <p>Моля опитайте по-късно!</p>
+            </div>
         }
     </form>
 </section>
@@ -54,4 +67,10 @@
         referrerpolicy="no-referrer-when-downgrade"
         [attr.src]="googleMapsUrl">
     </iframe>
+</section>
+<section class="platforms">
+    <a class="booking" mat-stroked-button href="https://www.booking.com/hotel/bg/timeless-sea.bg.html" target="_blank">Booking</a>
+    <a class="airbnb" mat-stroked-button href="https://bg.airbnb.com/rooms/1161564040928933998" target="_blank">AirBnb</a>
+    <a class="vila" mat-stroked-button href="https://vila.bg/house-morsko-bezvremie-7588.html" target="_blank">Вила.бг</a>
+    <a class="pochivka" mat-stroked-button href="https://pochivka.bg/kashta-morsko-bezvremie-o60955" target="_blank">Почивка.бг</a>
 </section>

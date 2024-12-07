@@ -8,13 +8,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule],
+  imports: [MatIconModule, MatButtonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatDatepickerModule],
   templateUrl: './contacts.component.html',
-  styleUrl: './contacts.component.scss'
+  styleUrl: './contacts.component.scss',
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'bg-BG'}, provideNativeDateAdapter()]
 })
 export class ContactsComponent {
   constructor(private http: HttpClient, private destroyRef: DestroyRef, private sanitizer: DomSanitizer){}
@@ -22,11 +26,14 @@ export class ContactsComponent {
   credentials: EmailJsType = {public_key: '', template_id: '', service_id: ''}
 
   email_sent: boolean = false
+  email_failed: boolean = false
   googleMapsUrl: SafeUrl | null = null;
 
   emailForm = new FormGroup({
     name: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
     email: new FormControl({value: '', disabled: this.email_sent}, [Validators.required, Validators.email]),
+    start_date: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
+    end_date: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
     message: new FormControl({value: '', disabled: this.email_sent}, [Validators.required])
   })
 
@@ -76,11 +83,12 @@ export class ContactsComponent {
       })
       .then(
         () => {
-          console.log('SUCCESS!');
+          this.email_failed = false
           this.email_sent = true
           this.emailForm.disable()
         },
         (error: any) => {
+          this.email_failed = true
           console.log('FAILED...', (error as EmailJSResponseStatus).text);
         },
       );
