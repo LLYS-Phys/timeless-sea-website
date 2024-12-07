@@ -11,11 +11,12 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [MatIconModule, MatButtonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatDatepickerModule],
+  imports: [MatIconModule, MatButtonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatDatepickerModule, CommonModule],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
   providers: [{provide: MAT_DATE_LOCALE, useValue: 'bg-BG'}, provideNativeDateAdapter()]
@@ -27,6 +28,7 @@ export class ContactsComponent {
 
   email_sent: boolean = false
   email_failed: boolean = false
+  form_submitting: boolean = false
   googleMapsUrl: SafeUrl | null = null;
 
   emailForm = new FormGroup({
@@ -53,6 +55,11 @@ export class ContactsComponent {
     const googleMapsCredential = this.fetchGoogleMapsApiKey().subscribe({
       next: (data) => {
         this.googleMapsUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.google.com/maps/embed/v1/place?key=" + data.api_key + "&q=Петрова+нива+16+Царево")
+        document.querySelector("#google-map")?.addEventListener("load", () => {
+          setTimeout(() => {
+            document.querySelector("#maps-loader")?.classList.remove("loading")
+          }, 500);
+        })
       },
       error: (err) => console.log(err)
     })
@@ -76,7 +83,7 @@ export class ContactsComponent {
 
   public sendEmail(e: Event) {
     e.preventDefault();
-
+    this.form_submitting = true;
     emailjs
       .sendForm(this.credentials!.service_id, this.credentials!.template_id, e.target as HTMLFormElement, {
         publicKey: this.credentials!.public_key,
@@ -85,10 +92,12 @@ export class ContactsComponent {
         () => {
           this.email_failed = false
           this.email_sent = true
+          this.form_submitting = false
           this.emailForm.disable()
         },
         (error: any) => {
           this.email_failed = true
+          this.form_submitting = false
           console.log('FAILED...', (error as EmailJSResponseStatus).text);
         },
       );

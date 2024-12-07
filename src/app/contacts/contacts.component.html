@@ -41,7 +41,7 @@
             }
         </mat-form-field>
         <div class="button-container">
-            <button type="submit" [disabled]="buttonStatus || this.email_sent" mat-fab aria-label="Submit Email Form">
+            <button type="submit" [disabled]="buttonStatus || this.email_sent || this.form_submitting" mat-fab aria-label="Submit Email Form">
                 <mat-icon>send</mat-icon>&nbsp;
                 Резервирай
             </button>
@@ -58,15 +58,48 @@
                 <p>Моля опитайте по-късно!</p>
             </div>
         }
+        <div class="loader-container" [ngClass]="form_submitting ? 'loading' : ''">
+            <div class="multi-spinner-container">
+                <div class="multi-spinner">
+                    <div class="multi-spinner">
+                        <div class="multi-spinner">
+                            <div class="multi-spinner">
+                                <div class="multi-spinner">
+                                    <div class="multi-spinner">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </section>
 <section class="map-section">
     <iframe
+        id="google-map"
         loading="lazy"
         allowfullscreen
         referrerpolicy="no-referrer-when-downgrade"
         [attr.src]="googleMapsUrl">
     </iframe>
+    <div class="loader-container loading" id="maps-loader" [ngClass]="form_submitting ? 'loading' : ''">
+        <div class="multi-spinner-container">
+            <div class="multi-spinner">
+                <div class="multi-spinner">
+                    <div class="multi-spinner">
+                        <div class="multi-spinner">
+                            <div class="multi-spinner">
+                                <div class="multi-spinner">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 <section class="platforms">
     <a class="booking" mat-stroked-button href="https://www.booking.com/hotel/bg/timeless-sea.bg.html" target="_blank">Booking</a>
