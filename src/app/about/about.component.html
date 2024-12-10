@@ -1,1 +1,14 @@
-<p>about works!</p>
+<section>
+    Basic house info
+</section>
+<section class="utilities">
+    @for (utility of utilities; track utility.id) {
+        <div class="utility">
+            <mat-icon>{{ utility.icon }}</mat-icon>
+            <div class="text">
+                <p class="main">{{ utility.firstLine }}</p>
+                <p class="additional">{{ utility.secondLine }}&nbsp;</p>
+            </div>
+        </div>
+    }
+</section>
