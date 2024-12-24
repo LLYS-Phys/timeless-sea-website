@@ -1,6 +1,55 @@
 :host{
+    .house-info{
+        margin-top: 7rem;
+        display: flex;
+        padding: 0 2rem;
+        gap: 1rem;
+        .paragraphs{
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0 2rem;
+            align-content: baseline;
+            mat-icon{
+                font-size: 1.5rem;
+                height: 1.5rem;
+                width: 1.5rem;
+                line-height: 1.25;
+                color: rgb(var(--darkblue));
+            }
+            p, ul{
+                font-family: 'Material Icons'; 
+                font-style: oblique;
+                font-size: 1.5rem;
+                line-height: 1.25;
+            }
+            .reserve{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                gap: 3rem;
+                align-items: baseline;
+                margin-top: 3rem;
+                button{
+                    background-color: rgba(var(--darkblue));
+                    color: white;
+                    font-size: 1.25rem;
+                    padding: 1rem 2rem;
+                    mat-icon {
+                        color: white;
+                    }
+                }
+            }
+        }
+        img{
+            margin-left: 2rem;
+            border-radius: 2rem; 
+        }
+    }
     .utilities-container{
         display: flex;
+        padding: 0 2rem;
+        gap: 1rem;
+        margin-top: 3rem;
         .utilities{
             display: flex;
             flex-wrap: wrap;
@@ -14,9 +63,10 @@
                     height: 2rem;
                     width: 2rem;
                     font-size: 2rem;
+                    color: rgb(var(--darkblue));
                 }
                 .text{
-                    padding-left: 0.5rem;
+                    padding-left: 1rem;
                     p{
                         margin: 0;
                     }
@@ -31,6 +81,82 @@
         }
         img{
             border-radius: 2rem;
+            margin-top: 2rem;
+        }
+    }
+    .reviews{
+        padding: 4rem;
+        display: flex;
+        gap: 1.5rem;
+        .review{
+            width: 33%;
+            padding: 1.5rem;
+            height: fit-content;
+            border-radius: 2rem;
+            border: 1px solid lightgray;
+            box-shadow: 0.0625rem 0.0625rem 0 0 black;
+            .heading{
+                .name_star{
+                    display: flex;
+                    align-items: baseline;
+                    justify-content: space-between;
+                    h5{
+                        margin: 0;
+                    }
+                    .stars{
+                        mat-icon{
+                            color: yellow;
+                        }
+                    }
+                }
+            }
+            .text{
+                margin-top: 1rem;
+            }
+        }
+    }
+    @media screen and (max-width: 1024px) {
+        .house-info{
+            flex-direction: column  ;
+            .paragraphs{
+                padding: 0;
+                width: -webkit-fill-available;
+                .reserve{
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 0;
+                    gap: 1rem;
+                }
+            }
+            img{
+                margin: 0;
+            }
+        }
+        .utilities-container{
+            flex-direction: column;
+            padding: 0 1rem;
+            margin-top: 1rem;
+            .utilities{
+                padding: 0;
+                order: 2;
+                .utility{
+                    width: 100%;
+                    .text{
+                        width: 90%;
+                    }
+                }
+            }
+            img{
+                order: 1;
+            }
+        }
+        .reviews{
+            padding: 0 1rem;
+            flex-direction: column;
+            margin: 2rem 0;
+            .review{
+                width: -webkit-fill-available;
+            }
         }
     }
 }
