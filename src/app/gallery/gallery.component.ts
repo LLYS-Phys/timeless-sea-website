@@ -65,7 +65,6 @@ export class GalleryPageComponent implements OnInit {
     document.querySelector(".modal")?.classList.add("active-gallery")
     this.currentGalleryImages = this.getAllImages(target)
     this.currentGalleryName = name
-    console.log(this.galleryComponent)
   }
   closeGallery(){
     document.querySelector(".modal")?.classList.remove("active-gallery")

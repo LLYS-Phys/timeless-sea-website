@@ -1,14 +1,20 @@
 <section>
     Basic house info
 </section>
-<section class="utilities">
-    @for (utility of utilities; track utility.id) {
-        <div class="utility">
-            <mat-icon>{{ utility.icon }}</mat-icon>
-            <div class="text">
-                <p class="main">{{ utility.firstLine }}</p>
-                <p class="additional">{{ utility.secondLine }}&nbsp;</p>
+<section class="utilities-container">
+    <div class="utilities">
+        @for (utility of utilities; track utility.id) {
+            <div class="utility">
+                <mat-icon>{{ utility.icon }}</mat-icon>
+                <div class="text">
+                    <p class="main">{{ utility.firstLine }}</p>
+                    <p class="additional">{{ utility.secondLine }}&nbsp;</p>
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
+    <img src="/images/Out11.jpg" alt="Къща за гости - Морско Безвремие"/>
+</section>
+<section>
+    Some small section here
 </section>
