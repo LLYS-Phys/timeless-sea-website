@@ -25,7 +25,7 @@
         </mat-form-field>
         <mat-form-field>
             <mat-label>Изберете начална и крайна дата</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
+            <mat-date-range-input [rangePicker]="picker" [dateFilter]="myFilter">
               <input matStartDate placeholder="Начална дата" formControlName="start_date" name="start_date">
               <input matEndDate placeholder="Крайна дата" formControlName="end_date" name="end_date">
             </mat-date-range-input>

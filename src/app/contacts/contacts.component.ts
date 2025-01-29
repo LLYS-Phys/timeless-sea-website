@@ -12,6 +12,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
+import * as ical from "node-ical";
 
 @Component({
   selector: 'app-contacts',
@@ -30,6 +31,8 @@ export class ContactsComponent {
   email_failed: boolean = false
   form_submitting: boolean = false
   googleMapsUrl: SafeUrl | null = null;
+  bookedDates: Date[] = []
+  myFilter: any
 
   emailForm = new FormGroup({
     name: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
@@ -51,7 +54,61 @@ export class ContactsComponent {
     return this.http.get<{api_key: string}>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/googlemaps.json')
   }
 
+  private fetchBooking() {
+    return this.http.get('http://localhost:3000/api/booking-calendar', {
+      responseType: 'text'  // This is crucial
+    });
+  }
+
+  private fetchAirBnb() {
+    return this.http.get('http://localhost:3000/api/airbnb-calendar', {
+      responseType: 'text'  // This is crucial
+    });
+  }
+
   ngOnInit() {
+    const bookedDatesSubscription = this.fetchBooking().subscribe({
+      next: (icalDataBooking: string) => {
+        try {
+          const eventsBooking = ical.sync.parseICS(icalDataBooking);
+          Object.values(eventsBooking).filter(event => event.type === 'VEVENT').forEach((el) => {
+            for (let i = el.start; i <= el.end; i.setDate(i.getDate() + 1)) {
+              this.bookedDates.push(new Date(i))
+            }
+          })
+        } catch (error) {
+          console.error('Error parsing iCal data:', error);
+        }
+      },
+      complete: () => {
+        this.fetchAirBnb().subscribe({
+          next: (icalDataAirBnb: string) => {
+            try {
+              const eventsAirBnb = ical.sync.parseICS(icalDataAirBnb);
+              Object.values(eventsAirBnb).filter(event => event.type === 'VEVENT').forEach((el) => {
+                for (let i = el.start; i <= el.end; i.setDate(i.getDate() + 1)) {
+                  this.bookedDates.push(new Date(i))
+                }
+              })
+            } catch (error) {
+              console.error('Error parsing iCal data:', error);
+            }       
+          },
+          complete: () => {
+            this.myFilter = (d: Date | null): boolean => {
+              if (!d) return false; // Prevent null errors
+              const today = new Date();
+              today.setHours(0, 0, 0, 0); // Reset time to ensure accurate comparison
+              // Disable if the date is in the past OR in the booked dates
+              return d >= today && !this.bookedDates.some(testDate => testDate.toDateString() === d.toDateString());
+            };  
+          },
+          error: (err) => console.error('Error fetching iCal data:', err)
+        });      
+      },
+      error: (err) => console.error('Error fetching iCal data:', err)
+    });
+  
     const googleMapsCredential = this.fetchGoogleMapsApiKey().subscribe({
       next: (data) => {
         this.googleMapsUrl = this.sanitizer.bypassSecurityTrustResourceUrl("https://www.google.com/maps/embed/v1/place?key=" + data.api_key + "&q=Петрова+нива+16+Царево")
@@ -78,6 +135,7 @@ export class ContactsComponent {
     this.destroyRef.onDestroy(() => {
       credentialsSubscription.unsubscribe()
       googleMapsCredential.unsubscribe()
+      bookedDatesSubscription.unsubscribe()
     })
   }
 
