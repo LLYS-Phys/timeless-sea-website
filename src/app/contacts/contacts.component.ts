@@ -172,9 +172,77 @@ export class ContactsComponent {
   }
 
   public endDateSelected() {
-    this.pickerEndDate.startAt = this,this.emailForm.controls.end_date.valid ? this.emailForm.controls.end_date.value : this.emailForm.controls.start_date.value
-    this.calculatedPrice = '100'
-  }
+    this.pickerEndDate.startAt = this.emailForm.controls.end_date.valid 
+      ? this.emailForm.controls.end_date.value 
+      : this.emailForm.controls.start_date.value;
+    
+    const startDate = new Date(this.emailForm.controls.start_date.value!);
+    const endDate = new Date(this.emailForm.controls.end_date.value!);
+
+    let discount = false
+    let tempCalculatedPrice = 0
+
+    const summer_strong_curent_year = [new Date(`${new Date().getFullYear()}-07-01`), new Date(`${new Date().getFullYear()}-09-08`)]
+    const summer_strong_next_year = [new Date(`${new Date().getFullYear() + 1}-07-01`), new Date(`${new Date().getFullYear() + 1}-09-08`)]
+    const summer_weak_current_year1 = [new Date(`${new Date().getFullYear()}-05-01`), new Date(`${new Date().getFullYear()}-06-30`)]
+    const summer_weak_current_year2 = [new Date(`${new Date().getFullYear()}-09-09`), new Date(`${new Date().getFullYear()}-10-01`)]
+    const summer_weak_next_year1 = [new Date(`${new Date().getFullYear() + 1}-05-01`), new Date(`${new Date().getFullYear() + 1}-06-30`)]
+    const summer_weak_next_year2 = [new Date(`${new Date().getFullYear() + 1}-09-09`), new Date(`${new Date().getFullYear() + 1}-10-01`)]
+
+    if (startDate && endDate) {
+      const timeDifference = endDate.getTime() - startDate.getTime();
+      const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+  
+      discount = dayDifference > 7 ? true : false
+  
+      // Create an array of dates from start_date to (end_date - 1 day)
+      const dateArray: Date[] = [];
+      let currentDate = new Date(startDate);
+  
+      while (currentDate < endDate) {
+        dateArray.push(new Date(currentDate)); // Store a new Date object
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+  
+      dateArray.forEach((date) => {
+        if (
+          (date.getFullYear() == new Date().getFullYear() && (date < summer_weak_current_year1[0] || date > summer_weak_current_year2[1])) ||
+          (date.getFullYear() + 1 == new Date().getFullYear() + 1 && (date < summer_weak_next_year1[0] || date > summer_weak_next_year2[1]))
+        ) {
+          if (date.getDay() == 0 || date.getDay() == 6) {
+            tempCalculatedPrice += Number(this.prices?.winter_weekend)
+          }
+          else {
+            tempCalculatedPrice += Number(this.prices?.winter_weekday)
+          }
+        }
+        else {
+          if (
+            (date.getFullYear() == new Date().getFullYear() && date > summer_strong_curent_year[0] && date < summer_strong_curent_year[1]) ||
+            (date.getFullYear() + 1 == new Date().getFullYear() + 1 && date < summer_strong_next_year[0] && date < summer_strong_next_year[1])){
+              if (date.getDay() == 0 || date.getDay() == 6) {
+                tempCalculatedPrice += Number(this.prices?.strong_summer_weekend)
+              }
+              else {
+                tempCalculatedPrice += Number(this.prices?.strong_summer_weekday)
+              }
+          }
+          else {
+            if (date.getDay() == 0 || date.getDay() == 6) {
+              tempCalculatedPrice += Number(this.prices?.weak_summer_weekend)
+            }
+            else {
+              tempCalculatedPrice += Number(this.prices?.weak_summer_weekday)
+            }
+          }
+        }
+        // To calcualte tempCalculatedPrice here
+        // take into account discount as well
+        this.calculatedPrice = tempCalculatedPrice.toString()
+        if (discount) this.calculatedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
+      })
+    }
+  }  
 
   public checkIfEndDateReady() {
     const startDate = this.emailForm.controls.start_date.value;
