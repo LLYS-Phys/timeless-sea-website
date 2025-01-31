@@ -85,6 +85,27 @@
             gap: 0.5rem;
             width: 75%;
             position: relative;
+            .dates{
+                display: flex;
+                gap: 1rem;
+                width: 100%;
+                mat-form-field{
+                    width: 50%;
+                    margin-bottom: 1rem;
+                }
+            }
+            .dates-error{
+                text-align: center;
+            }
+            .final-price {
+                text-align: center;
+                .calculated {
+                    font-size: 1.25rem;
+                    .price {
+                        font-weight: bold;
+                    }
+                }
+            }
             .button-container {
                 width: 100%;
                 display: flex;
@@ -191,6 +212,12 @@
             }
             form {
                 width: 100%;
+                .dates{
+                    flex-direction: column;
+                    mat-form-field{
+                        width: 100%;
+                    }
+                }
             }
         }
         .map-section{

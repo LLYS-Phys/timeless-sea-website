@@ -24,15 +24,34 @@
             }
         </mat-form-field>
         <mat-form-field>
-            <mat-label>Изберете начална и крайна дата</mat-label>
-            <mat-date-range-input [rangePicker]="picker" [dateFilter]="myFilter">
-              <input matStartDate placeholder="Начална дата" formControlName="start_date" name="start_date">
-              <input matEndDate placeholder="Крайна дата" formControlName="end_date" name="end_date">
-            </mat-date-range-input>
-            <mat-hint>ДД/ММ/ГГГГ – ДД/ММ/ГГГГ</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-label>Телефонен номер</mat-label>
+            <input matInput type="text" formControlName="phone" name="user_phone">
+            @if (this.emailForm.controls.phone.invalid && this.emailForm.controls.phone.touched) {
+                <mat-error>Моля въведете валиден телефонен номер!</mat-error>
+            }
         </mat-form-field>
+        <section class="dates">
+            <mat-form-field>
+                <mat-label>Дата за настаняване</mat-label>
+                <input matInput [matDatepicker]="pickerStartDate" formControlName="start_date" name="start_date" [matDatepickerFilter]="bookedDatesFilter" (dateChange)="checkIfEndDateReady()" (click)="pickerStartDate.open()" readonly>
+                <mat-hint>ДД/ММ/ГГГГ</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStartDate></mat-datepicker>                
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Дата за напускане</mat-label>
+                <input matInput [matDatepicker]="pickerEndDate" formControlName="end_date" name="end_date" [matDatepickerFilter]="endDateFilter" (dateChange)="endDateSelected();" (click)="pickerEndDate.open()" readonly>
+                <mat-hint>ДД/ММ/ГГГГ</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEndDate></mat-datepicker>
+                @if (this.emailForm.controls.end_date.invalid && this.emailForm.controls.end_date.touched) {
+                    <mat-error>Моля въведете валидна дата за напускане!</mat-error>
+                }
+            </mat-form-field>
+        </section>
+        @if (!this.anyDatesAvailable) {
+            <mat-error class="dates-error">Минималното време за престой е 3 нощувки! Моля изберете друга дата за настаняване!</mat-error>
+        }
         <mat-form-field>
             <mat-label>Съобщение</mat-label>
             <textarea matInput formControlName="message" rows="5" name="message"></textarea>
@@ -40,15 +59,23 @@
                 <mat-error>Моля въведете вашето съобщение!</mat-error>
             }
         </mat-form-field>
+        <section class="final-price">
+            @if (calculatedPrice && this.emailForm.controls.end_date.value != '' && this.emailForm.controls.end_date.valid) {
+                <p class="calculated">Цена за престой: <span class="price">{{ calculatedPrice }} лв.</span></p>
+            }
+            @else {
+                <p>Моля изберете дати за изчисляване на крайната цена.</p>
+            }
+        </section>
         <div class="button-container">
-            <button type="submit" [disabled]="buttonStatus || this.email_sent || this.form_submitting" mat-fab aria-label="Submit Email Form">
+            <button type="submit" [disabled]="buttonStatus || this.email_sent || this.form_submitting || this.emailForm.controls.end_date.value == ''" mat-fab aria-label="Submit Email Form">
                 <mat-icon>send</mat-icon>&nbsp;
                 Резервирай
             </button>
         </div>
         @if (this.email_sent) {
             <div class="email-sent">
-                <p>Получихме вашата резервация!</p>
+                <p>Получихме вашата резервация{{reservationInfo}}!</p>
                 <p>Ще се свържем с вас скоро!</p>
             </div>
         }
