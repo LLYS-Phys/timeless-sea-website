@@ -22,7 +22,7 @@ import { CustomDateAdapter } from './native_date_adapter';
   imports: [MatIconModule, MatButtonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatDatepickerModule, CommonModule],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.scss',
-  providers: [{provide: MAT_DATE_LOCALE, useValue: 'bg-BG'}, {provide: DateAdapter, useClass: CustomDateAdapter}, provideNativeDateAdapter()]
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'bg-BG'}, provideNativeDateAdapter(), {provide: DateAdapter, useClass: CustomDateAdapter}]
 })
 export class ContactsComponent {
   @ViewChild('pickerEndDate') pickerEndDate!: MatDatepicker<any>
