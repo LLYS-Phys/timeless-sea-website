@@ -28,7 +28,7 @@ export class ContactsComponent {
   @ViewChild('pickerEndDate') pickerEndDate!: MatDatepicker<any>
   constructor(private http: HttpClient, private destroyRef: DestroyRef, private sanitizer: DomSanitizer){}
 
-  credentials: EmailJsType = {public_key: '', template_id: '', service_id: ''}
+  credentials: EmailJsType = {public_key: '', template_id: '', service_id: '', confirmation_template_id: ''}
 
   email_sent: boolean = false
   email_failed: boolean = false
@@ -134,6 +134,7 @@ export class ContactsComponent {
           this.credentials!.public_key = data.public_key
           this.credentials!.service_id = data.service_id
           this.credentials!.template_id = data.template_id
+          this.credentials!.confirmation_template_id = data.confirmation_template_id
         },
         error: (err) => {
           console.log(err)
@@ -323,6 +324,18 @@ export class ContactsComponent {
         (error: any) => {
           this.email_failed = true
           this.form_submitting = false
+          console.log('FAILED...', (error as EmailJSResponseStatus).text);
+        },
+      );
+
+    emailjs
+      .sendForm(this.credentials!.service_id, this.credentials!.confirmation_template_id, e.target as HTMLFormElement, {
+        publicKey: this.credentials!.public_key,
+      })
+      .then(
+        () => {console.log('test')},
+        (error: any) => {
+          console.log(e.target)
           console.log('FAILED...', (error as EmailJSResponseStatus).text);
         },
       );
