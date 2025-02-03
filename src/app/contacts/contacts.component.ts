@@ -182,12 +182,12 @@ export class ContactsComponent {
     let discount = false
     let tempCalculatedPrice = 0
 
-    const summer_strong_curent_year = [new Date(`${new Date().getFullYear()}-07-01`), new Date(`${new Date().getFullYear()}-09-08`)]
-    const summer_strong_next_year = [new Date(`${new Date().getFullYear() + 1}-07-01`), new Date(`${new Date().getFullYear() + 1}-09-08`)]
-    const summer_weak_current_year1 = [new Date(`${new Date().getFullYear()}-05-01`), new Date(`${new Date().getFullYear()}-06-30`)]
-    const summer_weak_current_year2 = [new Date(`${new Date().getFullYear()}-09-09`), new Date(`${new Date().getFullYear()}-10-01`)]
-    const summer_weak_next_year1 = [new Date(`${new Date().getFullYear() + 1}-05-01`), new Date(`${new Date().getFullYear() + 1}-06-30`)]
-    const summer_weak_next_year2 = [new Date(`${new Date().getFullYear() + 1}-09-09`), new Date(`${new Date().getFullYear() + 1}-10-01`)]
+    const summer_strong_curent_year = [new Date(`${new Date().getFullYear()}-07-01 00:00`), new Date(`${new Date().getFullYear()}-09-08 00:00`)]
+    const summer_strong_next_year = [new Date(`${new Date().getFullYear() + 1}-07-01 00:00`), new Date(`${new Date().getFullYear() + 1}-09-08 00:00`)]
+    const summer_weak_current_year1 = [new Date(`${new Date().getFullYear()}-05-01 00:00`), new Date(`${new Date().getFullYear()}-06-30 00:00`)]
+    const summer_weak_current_year2 = [new Date(`${new Date().getFullYear()}-09-09 00:00`), new Date(`${new Date().getFullYear()}-10-01 00:00`)]
+    const summer_weak_next_year1 = [new Date(`${new Date().getFullYear() + 1}-05-01 00:00`), new Date(`${new Date().getFullYear() + 1}-06-30 00:00`)]
+    const summer_weak_next_year2 = [new Date(`${new Date().getFullYear() + 1}-09-09 00:00`), new Date(`${new Date().getFullYear() + 1}-10-01 00:00`)]
 
     if (startDate && endDate) {
       const timeDifference = endDate.getTime() - startDate.getTime();
@@ -204,42 +204,54 @@ export class ContactsComponent {
         currentDate.setDate(currentDate.getDate() + 1);
       }
   
+      let itemsProcessed = 0
       dateArray.forEach((date) => {
+        itemsProcessed++
         if (
           (date.getFullYear() == new Date().getFullYear() && (date < summer_weak_current_year1[0] || date > summer_weak_current_year2[1])) ||
-          (date.getFullYear() + 1 == new Date().getFullYear() + 1 && (date < summer_weak_next_year1[0] || date > summer_weak_next_year2[1]))
+          (date.getFullYear() == new Date().getFullYear() + 1 && (date < summer_weak_next_year1[0] || date > summer_weak_next_year2[1]))
         ) {
           if (date.getDay() == 0 || date.getDay() == 6) {
+            console.log(`${tempCalculatedPrice}+${Number(this.prices?.winter_weekend)}=${tempCalculatedPrice+Number(this.prices?.winter_weekend)}`)
             tempCalculatedPrice += Number(this.prices?.winter_weekend)
           }
           else {
+            console.log(`${tempCalculatedPrice}+${Number(this.prices?.winter_weekday)}=${tempCalculatedPrice+Number(this.prices?.winter_weekday)}`)
             tempCalculatedPrice += Number(this.prices?.winter_weekday)
           }
         }
         else {
           if (
-            (date.getFullYear() == new Date().getFullYear() && date > summer_strong_curent_year[0] && date < summer_strong_curent_year[1]) ||
-            (date.getFullYear() + 1 == new Date().getFullYear() + 1 && date < summer_strong_next_year[0] && date < summer_strong_next_year[1])){
+            (date.getFullYear() == new Date().getFullYear() && date >= summer_strong_curent_year[0] && date <= summer_strong_curent_year[1]) ||
+            (date.getFullYear() == new Date().getFullYear() + 1 && date <= summer_strong_next_year[0] && date <= summer_strong_next_year[1])){
               if (date.getDay() == 0 || date.getDay() == 6) {
+                console.log(`${tempCalculatedPrice}+${Number(this.prices?.strong_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.strong_summer_weekend)}`)
                 tempCalculatedPrice += Number(this.prices?.strong_summer_weekend)
               }
               else {
+                console.log(`${tempCalculatedPrice}+${Number(this.prices?.strong_summer_weekday)}=${tempCalculatedPrice+Number(this.prices?.strong_summer_weekday)}`)
                 tempCalculatedPrice += Number(this.prices?.strong_summer_weekday)
               }
           }
           else {
             if (date.getDay() == 0 || date.getDay() == 6) {
+              console.log(`${tempCalculatedPrice}+${Number(this.prices?.weak_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.weak_summer_weekend)}`)
               tempCalculatedPrice += Number(this.prices?.weak_summer_weekend)
             }
             else {
+              console.log(`${tempCalculatedPrice}+${Number(this.prices?.weak_summer_weekday)}=${tempCalculatedPrice+Number(this.prices?.weak_summer_weekday)}`)
               tempCalculatedPrice += Number(this.prices?.weak_summer_weekday)
             }
           }
         }
-        // To calcualte tempCalculatedPrice here
-        // take into account discount as well
-        this.calculatedPrice = tempCalculatedPrice.toString()
-        if (discount) this.calculatedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
+
+        if (itemsProcessed == dateArray.length) {
+          // To calcualte tempCalculatedPrice here
+          // take into account discount as well
+          this.calculatedPrice = tempCalculatedPrice.toString()
+          if (discount) this.calculatedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
+          if (discount) console.log(`${Number(this.calculatedPrice)}-${(Number(this.calculatedPrice)*0.1)}=${Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)}`)
+        }
       })
     }
   }  
