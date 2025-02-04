@@ -3,10 +3,30 @@ const cors = require('cors');
 const axios = require('axios');
 const app = express();
 
-// Enable CORS for your Angular app
+// List of allowed origins
+const allowedOrigins = [
+  'http://localhost:4200',
+  'https://llys-phys.github.io/timeless-sea-website/'
+];
+
+// CORS configuration
 app.use(cors({
-  origin: 'http://localhost:4200'
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      // Allow the origin or allow no origin for non-browser requests (like Postman or curl)
+      callback(null, true);
+    } else {
+      // Reject requests from unauthorized origins
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'OPTIONS'], // Allow these HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
+  credentials: true, // Allow credentials like cookies or authorization headers
 }));
+
+// Handle preflight requests (OPTIONS)
+app.options('*', cors());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
