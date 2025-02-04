@@ -59,6 +59,7 @@
                 <mat-error>Моля въведете вашето съобщение!</mat-error>
             }
         </mat-form-field>
+        <input formControlName="calculated_price" name="calculated_price" [disabled]="true" hidden>
         <section class="final-price">
             @if (calculatedPrice && this.emailForm.controls.end_date.value != '' && this.emailForm.controls.end_date.valid) {
                 <p class="calculated">Цена за престой: <span class="price">{{ calculatedPrice }} лв.</span></p>

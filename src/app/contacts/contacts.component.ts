@@ -48,7 +48,8 @@ export class ContactsComponent {
     phone: new FormControl({value: '', disabled: this.email_sent}, [Validators.required, Validators.pattern(/^\+?\d{5,}$/)]),
     start_date: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
     end_date: new FormControl({value: '', disabled: true}, [Validators.required]),
-    message: new FormControl({value: '', disabled: this.email_sent}, [Validators.required])
+    message: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
+    calculated_price: new FormControl({value: '', disabled: false})
   })
 
   get buttonStatus() {
@@ -250,8 +251,12 @@ export class ContactsComponent {
           // To calcualte tempCalculatedPrice here
           // take into account discount as well
           this.calculatedPrice = tempCalculatedPrice.toString()
-          if (discount) this.calculatedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
-          if (discount) console.log(`${Number(this.calculatedPrice)}-${(Number(this.calculatedPrice)*0.1)}=${Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)}`)
+          if (discount) {
+            console.log(`${Number(this.calculatedPrice)}-${(Number(this.calculatedPrice)*0.1)}=${Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)}`)
+            this.calculatedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
+          }
+
+          this.emailForm.controls.calculated_price.setValue(this.calculatedPrice)
         }
       })
     }
@@ -309,6 +314,7 @@ export class ContactsComponent {
   public sendEmail(e: Event) {
     e.preventDefault();
     this.form_submitting = true;
+    console.log(e.target)
     emailjs
       .sendForm(this.credentials!.service_id, this.credentials!.template_id, e.target as HTMLFormElement, {
         publicKey: this.credentials!.public_key,
