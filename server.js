@@ -6,7 +6,7 @@ const app = express();
 // List of allowed origins
 const allowedOrigins = [
   'http://localhost:4200',
-  'https://llys-phys.github.io/timeless-sea-website/contacts'
+  'https://llys-phys.github.io'
 ];
 
 // CORS configuration
