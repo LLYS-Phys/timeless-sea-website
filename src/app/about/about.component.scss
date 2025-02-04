@@ -178,6 +178,12 @@
                 order: 1;
             }
         }
+        .prices{
+            padding: 0 0.5rem;
+            table {
+                table-layout: fixed;
+            }
+        }
         .reviews{
             padding: 0 1rem;
             flex-direction: column;
