@@ -12,7 +12,7 @@ import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import * as ical from "node-ical";
+import ICAL from 'ical.js';
 import { PricesType } from './prices.model'
 import { CustomDateAdapter } from './native_date_adapter';
 
@@ -91,12 +91,16 @@ export class ContactsComponent {
       const bookedDatesSubscription = this.fetchBooking().subscribe({
         next: (icalDataBooking: string) => {
           try {
-            const eventsBooking = ical.sync.parseICS(icalDataBooking);
-            Object.values(eventsBooking).filter(event => event.type === 'VEVENT').forEach((el) => {
-              for (let i = el.start; i <= el.end; i.setDate(i.getDate() + 1)) {
-                this.bookedDates.push(new Date(i))
+            const eventsBooking = ICAL.parse(icalDataBooking);
+            const comp = new ICAL.Component(eventsBooking);
+            const vevents = comp.getAllSubcomponents("vevent");
+
+            vevents.forEach((event) => {
+              const vevent = new ICAL.Event(event);
+              for (let i = vevent.startDate.toJSDate(); i <= vevent.endDate.toJSDate(); i.setDate(i.getDate() + 1)) {
+                this.bookedDates.push(new Date(i));
               }
-            })
+            });
           } catch (error) {
             console.error('Error parsing iCal data:', error);
           }
@@ -105,12 +109,20 @@ export class ContactsComponent {
           this.fetchAirBnb().subscribe({
             next: (icalDataAirBnb: string) => {
               try {
-                const eventsAirBnb = ical.sync.parseICS(icalDataAirBnb);
-                Object.values(eventsAirBnb).filter(event => event.type === 'VEVENT').forEach((el) => {
-                  for (let i = el.start; i <= el.end; i.setDate(i.getDate() + 1)) {
-                    this.bookedDates.push(new Date(i))
+                const eventsAirBnb = ICAL.parse(icalDataAirBnb);
+                const comp = new ICAL.Component(eventsAirBnb);
+                const vevents = comp.getAllSubcomponents("vevent");
+
+                vevents.forEach((event) => {
+                  const vevent = new ICAL.Event(event);
+                  for (
+                    let i = vevent.startDate.toJSDate();
+                    i <= vevent.endDate.toJSDate();
+                    i.setDate(i.getDate() + 1)
+                  ) {
+                    this.bookedDates.push(new Date(i));
                   }
-                })
+                });
               } catch (error) {
                 console.error('Error parsing iCal data:', error);
               }       
