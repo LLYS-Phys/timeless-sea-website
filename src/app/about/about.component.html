@@ -45,17 +45,17 @@
             <th>Уикенд цена</th>
         </tr>
         <tr>
-            <td>Силен летен сезон <br> (1 Юли - 8 Сеп)</td>
+            <td>Силен летен сезон <br> ({{periods?.summer_strong_start!.word}} - {{periods?.summer_strong_end!.word}})</td>
             <td>{{prices?.strong_summer_weekday}}лв. на нощувка</td>
             <td>{{prices?.strong_summer_weekend}}лв. на нощувка</td>
         </tr>
         <tr>
-            <td>Слаб летен сезон <br> (1 Май - 31 Май & 9 Сеп - 30 Сеп)</td>
+            <td>Слаб летен сезон <br> ({{periods?.summer_weak1_start!.word}} - {{periods?.summer_weak1_end!.word}} & {{periods?.summer_weak2_start!.word}} - {{periods?.summer_weak2_end!.word}})</td>
             <td>{{prices?.weak_summer_weekday}}лв. на нощувка</td>
             <td>{{prices?.weak_summer_weekend}}лв. на нощувка</td>
         </tr>
         <tr>
-            <td>Извън сезон <br> (1 Окт - 31 Мар)</td>
+            <td>Извън сезон <br> ({{periods?.winter_start!.word}} - {{periods?.winter_end!.word}})</td>
             <td>{{prices?.winter_weekday}}лв. на нощувка</td>
             <td>{{prices?.winter_weekend}}лв. на нощувка</td>
         </tr>

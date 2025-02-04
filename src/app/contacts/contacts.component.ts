@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import ICAL from 'ical.js';
 import { PricesType } from '../prices.model'
 import { CustomDateAdapter } from './native_date_adapter';
+import { PeriodsType } from '../periods.model';
 
 @Component({
   selector: 'app-contacts',
@@ -41,6 +42,7 @@ export class ContactsComponent {
   anyDatesAvailable: boolean = true
   prices: PricesType | null = null
   calculatedPrice: string | null = null
+  periods: PeriodsType | null = null
 
   emailForm = new FormGroup({
     name: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
@@ -66,6 +68,10 @@ export class ContactsComponent {
 
   private fetchPrices () {
     return this.http.get<PricesType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/prices.json')
+  }
+
+  private fetchPeriods () {
+    return this.http.get<PeriodsType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/periods.json')
   }
 
   private fetchBooking() {
@@ -161,10 +167,17 @@ export class ContactsComponent {
         error: (err) => console.log(err)
       })
 
+      const periodsSubscription = this.fetchPeriods().subscribe({
+        next: (data) => {
+          this.periods = data
+        }
+      })
+
       this.destroyRef.onDestroy(() => {
         credentialsSubscription.unsubscribe()
         bookedDatesSubscription.unsubscribe()
         pricesSubscription.unsubscribe()
+        periodsSubscription.unsubscribe()
       })
     }
 
@@ -196,12 +209,12 @@ export class ContactsComponent {
     let discount = false
     let tempCalculatedPrice = 0
 
-    const summer_strong_curent_year = [new Date(`${new Date().getFullYear()}-07-01 00:00`), new Date(`${new Date().getFullYear()}-09-08 00:00`)]
-    const summer_strong_next_year = [new Date(`${new Date().getFullYear() + 1}-07-01 00:00`), new Date(`${new Date().getFullYear() + 1}-09-08 00:00`)]
-    const summer_weak_current_year1 = [new Date(`${new Date().getFullYear()}-05-01 00:00`), new Date(`${new Date().getFullYear()}-06-30 00:00`)]
-    const summer_weak_current_year2 = [new Date(`${new Date().getFullYear()}-09-09 00:00`), new Date(`${new Date().getFullYear()}-10-01 00:00`)]
-    const summer_weak_next_year1 = [new Date(`${new Date().getFullYear() + 1}-05-01 00:00`), new Date(`${new Date().getFullYear() + 1}-06-30 00:00`)]
-    const summer_weak_next_year2 = [new Date(`${new Date().getFullYear() + 1}-09-09 00:00`), new Date(`${new Date().getFullYear() + 1}-10-01 00:00`)]
+    const summer_strong_curent_year = [new Date(`${new Date().getFullYear()}-${this.periods?.summer_strong_start.date} 00:00`), new Date(`${new Date().getFullYear()}-${this.periods?.summer_strong_end.date} 00:00`)]
+    const summer_strong_next_year = [new Date(`${new Date().getFullYear() + 1}-${this.periods?.summer_strong_start.date} 00:00`), new Date(`${new Date().getFullYear() + 1}-${this.periods?.summer_strong_end.date} 00:00`)]
+    const summer_weak_current_year1 = [new Date(`${new Date().getFullYear()}-${this.periods?.summer_weak1_start.date} 00:00`), new Date(`${new Date().getFullYear()}-${this.periods?.summer_weak1_end.date} 00:00`)]
+    const summer_weak_current_year2 = [new Date(`${new Date().getFullYear()}-${this.periods?.summer_weak2_start.date} 00:00`), new Date(`${new Date().getFullYear()}-${this.periods?.summer_weak2_end.date} 00:00`)]
+    const summer_weak_next_year1 = [new Date(`${new Date().getFullYear() + 1}-${this.periods?.summer_weak1_start.date} 00:00`), new Date(`${new Date().getFullYear() + 1}-${this.periods?.summer_weak1_end.date} 00:00`)]
+    const summer_weak_next_year2 = [new Date(`${new Date().getFullYear() + 1}-${this.periods?.summer_weak2_start.date} 00:00`), new Date(`${new Date().getFullYear() + 1}-${this.periods?.summer_weak2_end.date} 00:00`)]
 
     if (startDate && endDate) {
       const timeDifference = endDate.getTime() - startDate.getTime();

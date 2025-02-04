@@ -4,6 +4,7 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { PricesType } from '../prices.model';
 import { HttpClient } from '@angular/common/http';
+import { PeriodsType } from '../periods.model';
 
 @Component({
   selector: 'app-about',
@@ -16,6 +17,7 @@ export class AboutComponent {
   constructor(private http: HttpClient, private destroyRef: DestroyRef){}
 
   prices: PricesType | null = null
+  periods: PeriodsType | null = null
   
   utilities: {id: number, icon: string, firstLine: string, secondLine: string}[] = [
     {id: 1, icon: "login", firstLine: "Настаняване", secondLine: "От 15:00 ч. до 0:00 ч. (Информирайте ни предварително кога пристигате)"},
@@ -60,6 +62,10 @@ export class AboutComponent {
     return this.http.get<PricesType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/prices.json')
   }
 
+  private fetchPeriods () {
+    return this.http.get<PeriodsType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/periods.json')
+  }
+
   ngOnInit() {
     const pricesSubscription = this.fetchPrices().subscribe({
       next: (data) => {
@@ -68,8 +74,15 @@ export class AboutComponent {
       error: (err) => console.log(err)
     })
 
+    const periodsSubscription = this.fetchPeriods().subscribe({
+      next: (data) => {
+        this.periods = data
+      }
+    })
+
     this.destroyRef.onDestroy(() => {
       pricesSubscription.unsubscribe()
+      periodsSubscription.unsubscribe()
     })
   }
 }
