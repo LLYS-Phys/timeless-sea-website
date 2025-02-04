@@ -37,6 +37,31 @@
     </div>
     <img src="/images/Out11.jpg" alt="Къща за гости - Морско Безвремие"/>
 </section>
+<section class="prices">
+    <table>
+        <tr>
+            <th>Активен период</th>
+            <th>Делнична цена</th>
+            <th>Уикенд цена</th>
+        </tr>
+        <tr>
+            <td>Силен летен сезон <br> (1 Юли - 8 Септември)</td>
+            <td>{{prices?.strong_summer_weekday}}лв. на нощувка</td>
+            <td>{{prices?.strong_summer_weekend}}лв. на нощувка</td>
+        </tr>
+        <tr>
+            <td>Слаб летен сезон <br> (1 Май - 31 Май & 9 Септември - 30 Септември)</td>
+            <td>{{prices?.weak_summer_weekday}}лв. на нощувка</td>
+            <td>{{prices?.weak_summer_weekend}}лв. на нощувка</td>
+        </tr>
+        <tr>
+            <td>Извън сезон <br> (1 Октомври - 31 Март)</td>
+            <td>{{prices?.winter_weekday}}лв. на нощувка</td>
+            <td>{{prices?.winter_weekend}}лв. на нощувка</td>
+        </tr>
+    </table>
+    <p class="discount">* При повече от 7 нощувки получавате отстъпка от 10% на крайната цена</p>
+</section>
 <section class="reviews">
     @for (review of reviews; track review.id) {
         <div class="review">

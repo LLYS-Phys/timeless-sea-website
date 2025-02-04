@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { PricesType } from '../prices.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-about',
@@ -11,6 +13,10 @@ import { RouterModule } from '@angular/router';
   styleUrl: './about.component.scss'
 })
 export class AboutComponent {
+  constructor(private http: HttpClient, private destroyRef: DestroyRef){}
+
+  prices: PricesType | null = null
+  
   utilities: {id: number, icon: string, firstLine: string, secondLine: string}[] = [
     {id: 1, icon: "login", firstLine: "Настаняване", secondLine: "От 15:00 ч. до 0:00 ч. (Информирайте ни предварително кога пристигате)"},
     {id: 2, icon: "logout", firstLine: "Напускане", secondLine: "От 8:00 ч. до 12:00 ч."},
@@ -48,5 +54,22 @@ export class AboutComponent {
 
   stars(stars: number) {
     return new Array(stars)
+  }
+
+  private fetchPrices () {
+    return this.http.get<PricesType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/prices.json')
+  }
+
+  ngOnInit() {
+    const pricesSubscription = this.fetchPrices().subscribe({
+      next: (data) => {
+        this.prices = data
+      },
+      error: (err) => console.log(err)
+    })
+
+    this.destroyRef.onDestroy(() => {
+      pricesSubscription.unsubscribe()
+    })
   }
 }
