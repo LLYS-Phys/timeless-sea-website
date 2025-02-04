@@ -288,6 +288,8 @@ export class ContactsComponent {
   }  
 
   public checkIfEndDateReady() {
+    this.emailForm.controls.end_date.patchValue('')
+    this.emailForm.controls.end_date.disable()
     const startDate = this.emailForm.controls.start_date.value;
   
     if (this.emailForm.controls.start_date.valid && startDate) {
