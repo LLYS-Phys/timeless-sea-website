@@ -69,13 +69,13 @@ export class ContactsComponent {
   }
 
   private fetchBooking() {
-    return this.http.get('http://localhost:3000/api/booking-calendar', {
+    return this.http.get('https://timeless-sea-website-proxy-server.onrender.com/api/booking-calendar', {
       responseType: 'text'  // This is crucial
     });
   }
 
   private fetchAirBnb() {
-    return this.http.get('http://localhost:3000/api/airbnb-calendar', {
+    return this.http.get('https://timeless-sea-website-proxy-server.onrender.com/api/airbnb-calendar', {
       responseType: 'text'  // This is crucial
     });
   }
