@@ -238,7 +238,7 @@ export class ContactsComponent {
           (date.getFullYear() == new Date().getFullYear() && (date < summer_weak_current_year1[0] || date > summer_weak_current_year2[1])) ||
           (date.getFullYear() == new Date().getFullYear() + 1 && (date < summer_weak_next_year1[0] || date > summer_weak_next_year2[1]))
         ) {
-          if (date.getDay() == 0 || date.getDay() == 6) {
+          if (date.getDay() == 5 || date.getDay() == 6) {
             console.log(`${tempCalculatedPrice}+${Number(this.prices?.winter_weekend)}=${tempCalculatedPrice+Number(this.prices?.winter_weekend)}`)
             tempCalculatedPrice += Number(this.prices?.winter_weekend)
           }
@@ -251,7 +251,7 @@ export class ContactsComponent {
           if (
             (date.getFullYear() == new Date().getFullYear() && date >= summer_strong_curent_year[0] && date <= summer_strong_curent_year[1]) ||
             (date.getFullYear() == new Date().getFullYear() + 1 && date <= summer_strong_next_year[0] && date <= summer_strong_next_year[1])){
-              if (date.getDay() == 0 || date.getDay() == 6) {
+              if (date.getDay() == 5 || date.getDay() == 6) {
                 console.log(`${tempCalculatedPrice}+${Number(this.prices?.strong_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.strong_summer_weekend)}`)
                 tempCalculatedPrice += Number(this.prices?.strong_summer_weekend)
               }
@@ -261,7 +261,7 @@ export class ContactsComponent {
               }
           }
           else {
-            if (date.getDay() == 0 || date.getDay() == 6) {
+            if (date.getDay() == 5 || date.getDay() == 6) {
               console.log(`${tempCalculatedPrice}+${Number(this.prices?.weak_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.weak_summer_weekend)}`)
               tempCalculatedPrice += Number(this.prices?.weak_summer_weekend)
             }
