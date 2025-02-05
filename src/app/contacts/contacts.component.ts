@@ -12,10 +12,10 @@ import { DateAdapter, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
-import ICAL from 'ical.js';
 import { PricesType } from '../prices.model'
 import { CustomDateAdapter } from './native_date_adapter';
 import { PeriodsType } from '../periods.model';
+import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-contacts',
@@ -27,7 +27,7 @@ import { PeriodsType } from '../periods.model';
 })
 export class ContactsComponent {
   @ViewChild('pickerEndDate') pickerEndDate!: MatDatepicker<any>
-  constructor(private http: HttpClient, private destroyRef: DestroyRef, private sanitizer: DomSanitizer){}
+  constructor(private http: HttpClient, private destroyRef: DestroyRef, private sanitizer: DomSanitizer, private bookingService: BookingService){}
 
   credentials: EmailJsType = {public_key: '', template_id: '', service_id: '', confirmation_template_id: ''}
 
@@ -75,18 +75,6 @@ export class ContactsComponent {
     return this.http.get<PeriodsType>('https://timeless-sea-default-rtdb.europe-west1.firebasedatabase.app/periods.json')
   }
 
-  private fetchBooking() {
-    return this.http.get('https://timeless-sea-website-proxy-server.onrender.com/api/booking-calendar', {
-      responseType: 'text'  // This is crucial
-    });
-  }
-
-  private fetchAirBnb() {
-    return this.http.get('https://timeless-sea-website-proxy-server.onrender.com/api/airbnb-calendar', {
-      responseType: 'text'  // This is crucial
-    });
-  }
-
   ngOnInit() {
     if (localStorage.getItem("reservationSent")) {
       this.email_failed = false
@@ -95,60 +83,6 @@ export class ContactsComponent {
       this.reservationInfo = localStorage.getItem("reservationSent")!
     }
     else {
-      const bookedDatesSubscription = this.fetchBooking().subscribe({
-        next: (icalDataBooking: string) => {
-          try {
-            const eventsBooking = ICAL.parse(icalDataBooking);
-            const comp = new ICAL.Component(eventsBooking);
-            const vevents = comp.getAllSubcomponents("vevent");
-
-            vevents.forEach((event) => {
-              const vevent = new ICAL.Event(event);
-              for (let i = vevent.startDate.toJSDate(); i <= vevent.endDate.toJSDate(); i.setDate(i.getDate() + 1)) {
-                this.bookedDates.push(new Date(i));
-              }
-            });
-          } catch (error) {
-            console.error('Error parsing iCal data:', error);
-          }
-        },
-        complete: () => {
-          this.fetchAirBnb().subscribe({
-            next: (icalDataAirBnb: string) => {
-              try {
-                const eventsAirBnb = ICAL.parse(icalDataAirBnb);
-                const comp = new ICAL.Component(eventsAirBnb);
-                const vevents = comp.getAllSubcomponents("vevent");
-
-                vevents.forEach((event) => {
-                  const vevent = new ICAL.Event(event);
-                  for (
-                    let i = vevent.startDate.toJSDate();
-                    i <= vevent.endDate.toJSDate();
-                    i.setDate(i.getDate() + 1)
-                  ) {
-                    this.bookedDates.push(new Date(i));
-                  }
-                });
-              } catch (error) {
-                console.error('Error parsing iCal data:', error);
-              }       
-            },
-            complete: () => {
-              this.bookedDatesFilter = (d: Date | null): boolean => {
-                if (!d) return false; // Prevent null errors
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Reset time to ensure accurate comparison
-                // Disable if the date is in the past OR in the booked dates
-                return d >= today && !this.bookedDates.some(testDate => testDate.toDateString() === d.toDateString());
-              };  
-            },
-            error: (err) => console.error('Error fetching iCal data:', err)
-          });      
-        },
-        error: (err) => console.error('Error fetching iCal data:', err)
-      });
-
       const credentialsSubscription = this.fetchEmailjsCredentials().subscribe({
         next: (data) => {
           this.credentials!.public_key = data.public_key
@@ -174,9 +108,20 @@ export class ContactsComponent {
         }
       })
 
+      this.bookingService.bookedDates$.subscribe(dates => {
+        this.bookedDates = dates;
+
+        this.bookedDatesFilter = (d: Date | null): boolean => {
+          if (!d) return false; // Prevent null errors
+          const today = new Date();
+          today.setHours(0, 0, 0, 0); // Reset time to ensure accurate comparison
+          // Disable if the date is in the past OR in the booked dates
+          return d >= today && !this.bookedDates.some(testDate => testDate.toDateString() === d.toDateString());
+        };  
+      });
+
       this.destroyRef.onDestroy(() => {
         credentialsSubscription.unsubscribe()
-        bookedDatesSubscription.unsubscribe()
         pricesSubscription.unsubscribe()
         periodsSubscription.unsubscribe()
       })
@@ -242,11 +187,11 @@ export class ContactsComponent {
           (date.getFullYear() == new Date().getFullYear() + 1 && (date < summer_weak_next_year1[0] || date > summer_weak_next_year2[1]))
         ) {
           if (date.getDay() == 5 || date.getDay() == 6) {
-            console.log(`${tempCalculatedPrice}+${Number(this.prices?.winter_weekend)}=${tempCalculatedPrice+Number(this.prices?.winter_weekend)}`)
+            // console.log(`${tempCalculatedPrice}+${Number(this.prices?.winter_weekend)}=${tempCalculatedPrice+Number(this.prices?.winter_weekend)}`)
             tempCalculatedPrice += Number(this.prices?.winter_weekend)
           }
           else {
-            console.log(`${tempCalculatedPrice}+${Number(this.prices?.winter_weekday)}=${tempCalculatedPrice+Number(this.prices?.winter_weekday)}`)
+            // console.log(`${tempCalculatedPrice}+${Number(this.prices?.winter_weekday)}=${tempCalculatedPrice+Number(this.prices?.winter_weekday)}`)
             tempCalculatedPrice += Number(this.prices?.winter_weekday)
           }
         }
@@ -255,21 +200,21 @@ export class ContactsComponent {
             (date.getFullYear() == new Date().getFullYear() && date >= summer_strong_curent_year[0] && date <= summer_strong_curent_year[1]) ||
             (date.getFullYear() == new Date().getFullYear() + 1 && date <= summer_strong_next_year[0] && date <= summer_strong_next_year[1])){
               if (date.getDay() == 5 || date.getDay() == 6) {
-                console.log(`${tempCalculatedPrice}+${Number(this.prices?.strong_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.strong_summer_weekend)}`)
+                // console.log(`${tempCalculatedPrice}+${Number(this.prices?.strong_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.strong_summer_weekend)}`)
                 tempCalculatedPrice += Number(this.prices?.strong_summer_weekend)
               }
               else {
-                console.log(`${tempCalculatedPrice}+${Number(this.prices?.strong_summer_weekday)}=${tempCalculatedPrice+Number(this.prices?.strong_summer_weekday)}`)
+                // console.log(`${tempCalculatedPrice}+${Number(this.prices?.strong_summer_weekday)}=${tempCalculatedPrice+Number(this.prices?.strong_summer_weekday)}`)
                 tempCalculatedPrice += Number(this.prices?.strong_summer_weekday)
               }
           }
           else {
             if (date.getDay() == 5 || date.getDay() == 6) {
-              console.log(`${tempCalculatedPrice}+${Number(this.prices?.weak_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.weak_summer_weekend)}`)
+              // console.log(`${tempCalculatedPrice}+${Number(this.prices?.weak_summer_weekend)}=${tempCalculatedPrice+Number(this.prices?.weak_summer_weekend)}`)
               tempCalculatedPrice += Number(this.prices?.weak_summer_weekend)
             }
             else {
-              console.log(`${tempCalculatedPrice}+${Number(this.prices?.weak_summer_weekday)}=${tempCalculatedPrice+Number(this.prices?.weak_summer_weekday)}`)
+              // console.log(`${tempCalculatedPrice}+${Number(this.prices?.weak_summer_weekday)}=${tempCalculatedPrice+Number(this.prices?.weak_summer_weekday)}`)
               tempCalculatedPrice += Number(this.prices?.weak_summer_weekday)
             }
           }
@@ -280,7 +225,7 @@ export class ContactsComponent {
           // take into account discount as well
           this.calculatedPrice = tempCalculatedPrice.toString()
           if (discount) {
-            console.log(`${Number(this.calculatedPrice)}-${(Number(this.calculatedPrice)*0.1)}=${Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)}`)
+            // console.log(`${Number(this.calculatedPrice)}-${(Number(this.calculatedPrice)*0.1)}=${Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)}`)
             this.discountedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
             this.emailForm.controls.calculated_price.setValue(this.discountedPrice)
           }
@@ -346,7 +291,6 @@ export class ContactsComponent {
   public sendEmail(e: Event) {
     e.preventDefault();
     this.form_submitting = true;
-    console.log(e.target)
     emailjs
       .sendForm(this.credentials!.service_id, this.credentials!.template_id, e.target as HTMLFormElement, {
         publicKey: this.credentials!.public_key,
@@ -371,9 +315,8 @@ export class ContactsComponent {
         publicKey: this.credentials!.public_key,
       })
       .then(
-        () => {console.log('test')},
+        () => {},
         (error: any) => {
-          console.log(e.target)
           console.log('FAILED...', (error as EmailJSResponseStatus).text);
         },
       );
