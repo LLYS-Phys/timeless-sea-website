@@ -42,6 +42,7 @@ export class ContactsComponent {
   anyDatesAvailable: boolean = true
   prices: PricesType | null = null
   calculatedPrice: string | null = null
+  discountedPrice: string | null = null
   periods: PeriodsType | null = null
 
   emailForm = new FormGroup({
@@ -199,6 +200,8 @@ export class ContactsComponent {
   }
 
   public endDateSelected() {
+    this.discountedPrice = null
+    
     this.pickerEndDate.startAt = this.emailForm.controls.end_date.valid 
       ? this.emailForm.controls.end_date.value 
       : this.emailForm.controls.start_date.value;
@@ -278,7 +281,7 @@ export class ContactsComponent {
           this.calculatedPrice = tempCalculatedPrice.toString()
           if (discount) {
             console.log(`${Number(this.calculatedPrice)}-${(Number(this.calculatedPrice)*0.1)}=${Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)}`)
-            this.calculatedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
+            this.discountedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
           }
 
           this.emailForm.controls.calculated_price.setValue(this.calculatedPrice)

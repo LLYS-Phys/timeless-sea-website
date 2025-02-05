@@ -97,6 +97,9 @@
             .dates-error{
                 text-align: center;
             }
+            .discount {
+                text-align: center;
+            }
             .final-price {
                 text-align: center;
                 .calculated {
@@ -104,6 +107,38 @@
                     .price {
                         font-weight: bold;
                         color: rgb(var(--darkblue));
+                    }
+                    &:has(.price-container) {
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+                .price-container{
+                    display: flex;
+                    justify-content: space-evenly;
+                    gap: 0.5rem;
+                    .current-price{
+                        font-weight: bold;
+                        color: rgb(var(--darkblue));
+                    }
+                    .old-price{
+                        color: rgb(var(--blue));
+                        position: relative;
+                        &:before{
+                            position: absolute;
+                            content: "";
+                            left: 0;
+                            top: 50%;
+                            right: 0;
+                            border-top: 3px solid;
+                            border-color: rgba(var(--darkblue), 1);
+                            
+                            -webkit-transform:rotate(-10deg);
+                            -moz-transform:rotate(-10deg);
+                            -ms-transform:rotate(-10deg);
+                            -o-transform:rotate(-10deg);
+                            transform:rotate(-10deg);
+                        }
                     }
                 }
             }
