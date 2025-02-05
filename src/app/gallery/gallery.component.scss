@@ -87,6 +87,9 @@
         }
     }
     @media screen and (max-width: 1024px) {
+        h2 {
+            font-size: 2rem;
+        }
         .gallery-container-row {
             flex-direction: column;
             margin: 2rem;

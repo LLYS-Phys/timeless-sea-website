@@ -133,6 +133,12 @@
                 max-height: unset;
             }
             .text {
+                font-size: 1.25rem;
+                mat-icon {
+                    font-size: 1.25rem;
+                    height: 1.25rem;
+                    width: 1.25rem;
+                }
                 p {
                     width: 100%;
                 }

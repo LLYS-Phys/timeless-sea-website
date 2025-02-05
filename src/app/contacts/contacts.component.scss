@@ -185,6 +185,9 @@
 @media screen and (max-width: 1024px) {
     :host{
         justify-content: center;
+        h2 {
+            font-size: 2rem;
+        }
         .platforms{
             margin-top: 0;
             width: 80%;
@@ -209,6 +212,7 @@
             margin-top: 0;
             padding-top: 0;
             h2 {
+                font-size: 2rem;
                 max-width: 90%;
             }
             form {
