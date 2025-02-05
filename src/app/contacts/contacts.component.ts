@@ -282,9 +282,11 @@ export class ContactsComponent {
           if (discount) {
             console.log(`${Number(this.calculatedPrice)}-${(Number(this.calculatedPrice)*0.1)}=${Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)}`)
             this.discountedPrice = (Number(this.calculatedPrice) - (Number(this.calculatedPrice)*0.1)).toString()
+            this.emailForm.controls.calculated_price.setValue(this.discountedPrice)
           }
-
-          this.emailForm.controls.calculated_price.setValue(this.calculatedPrice)
+          else {
+            this.emailForm.controls.calculated_price.setValue(this.calculatedPrice)
+          }
         }
       })
     }
