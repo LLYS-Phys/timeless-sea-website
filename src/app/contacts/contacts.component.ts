@@ -220,7 +220,7 @@ export class ContactsComponent {
       const timeDifference = endDate.getTime() - startDate.getTime();
       const dayDifference = timeDifference / (1000 * 60 * 60 * 24);
   
-      discount = dayDifference > 7 ? true : false
+      discount = dayDifference >= 7 ? true : false
   
       // Create an array of dates from start_date to (end_date - 1 day)
       const dateArray: Date[] = [];
