@@ -271,6 +271,23 @@
         }
     }
 }
+@media screen and (max-width: 464px) {
+    .contact-form-section {
+        form { 
+            .final-price {
+                .price-container {
+                    .old-price:before {
+                        -webkit-transform:rotate(-40deg) !important;
+                        -moz-transform:rotate(-40deg) !important;
+                        -ms-transform:rotate(-40deg) !important;
+                        -o-transform:rotate(-40deg) !important;
+                        transform:rotate(-40deg) !important;
+                    }
+                }
+            }
+        }
+    }
+}
 @keyframes spin {
     from {
       -webkit-transform: rotate(0deg);
