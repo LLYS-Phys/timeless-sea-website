@@ -1,16 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, interval, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import ICAL from 'ical.js';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookingService {
+export class BookingService implements OnDestroy {
   private bookedDatesSubject = new BehaviorSubject<Date[]>([]);
   bookedDates$ = this.bookedDatesSubject.asObservable();
+  private refreshSubscription!: Subscription; // Store the subscription for cleanup
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.autoRefreshData(); // Set up the auto-refresh mechanism
+  }
 
   fetchBooking() {
     return this.http.get('https://timeless-sea-website-proxy-server.onrender.com/api/booking-calendar', {
@@ -78,5 +82,24 @@ export class BookingService {
       },
       error: err => console.error('Error fetching booking iCal data:', err)
     });
+  }
+
+  private autoRefreshData() {
+    // Setup auto-refresh every 30 minutes
+    this.refreshSubscription = interval(30 * 60 * 1000) // 30 minutes
+      .pipe(switchMap(() => this.fetchBooking())) // Fetch the booking data again
+      .subscribe({
+        next: () => {
+          this.loadBookedDates(); // Re-load the booked dates
+        },
+        error: err => console.error('Error refreshing data:', err)
+      });
+  }
+
+  // Clean up the interval subscription when the service is destroyed
+  ngOnDestroy(): void {
+    if (this.refreshSubscription) {
+      this.refreshSubscription.unsubscribe(); // Unsubscribe to prevent memory leaks
+    }
   }
 }
