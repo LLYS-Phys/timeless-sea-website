@@ -114,15 +114,47 @@
     }
     .reviews{
         padding: 4rem;
-        display: flex;
-        gap: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 10px;
+        .booking-award-desktop{
+            grid-column: 2;
+            grid-row: 1;
+            align-self: start;
+            height: auto;
+            width: 100%;
+            img {
+                width: inherit;
+                border-radius: 2rem;
+            }
+        }
+        .booking-award-mobile {
+            display: none;
+        }
         .review{
-            width: 33%;
+            display: flex;
+            flex-direction: column;
+            height: auto;
             padding: 1.5rem;
-            height: fit-content;
             border-radius: 2rem;
             border: 1px solid lightgray;
             box-shadow: 0.0625rem 0.0625rem 0 0 black;
+            &.review-0 {
+                grid-row: span 2;
+                grid-column: 1;
+                grid-row-start: 1;
+            }
+            &.review-1 {
+                grid-column: 2;
+                grid-row: 1;
+                align-self: end;
+            }
+            &.review-2 {
+                grid-row: span 2;
+                grid-column: 3;
+                grid-row-start: 1;
+            }
             .heading{
                 .name_star{
                     display: flex;
@@ -186,10 +218,46 @@
         }
         .reviews{
             padding: 0 1rem;
+            display: flex;
+            gap: 1.5rem;
             flex-direction: column;
             margin: 2rem 0;
+            .booking-award-desktop{
+                display: none;
+            }
+            .booking-award-mobile {
+                display: block;
+                width: 100%;
+                img {
+                    border-radius: 2rem;
+                    width: inherit;
+                }
+            }
             .review{
                 width: -webkit-fill-available;
+                padding: 1.5rem;
+                height: fit-content;
+                border-radius: 2rem;
+                border: 1px solid lightgray;
+                box-shadow: 0.0625rem 0.0625rem 0 0 black;
+                .heading{
+                    .name_star{
+                        display: flex;
+                        align-items: baseline;
+                        justify-content: space-between;
+                        h5{
+                            margin: 0;
+                        }
+                        .stars{
+                            mat-icon{
+                                color: yellow;
+                            }
+                        }
+                    }
+                }
+                .text{
+                    margin-top: 1rem;
+                }
             }
         }
     }

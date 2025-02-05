@@ -5,11 +5,12 @@ import { RouterModule } from '@angular/router';
 import { PricesType } from '../prices.model';
 import { HttpClient } from '@angular/common/http';
 import { PeriodsType } from '../periods.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [MatIcon, RouterModule, MatIconModule, MatButtonModule],
+  imports: [MatIcon, RouterModule, MatIconModule, MatButtonModule, CommonModule],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss'
 })
