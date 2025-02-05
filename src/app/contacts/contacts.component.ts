@@ -44,14 +44,15 @@ export class ContactsComponent {
   calculatedPrice: string | null = null
   discountedPrice: string | null = null
   periods: PeriodsType | null = null
+  reservationForm: string | null = null
 
   emailForm = new FormGroup({
-    name: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
-    email: new FormControl({value: '', disabled: this.email_sent}, [Validators.required, Validators.email]),
-    phone: new FormControl({value: '', disabled: this.email_sent}, [Validators.required, Validators.pattern(/^\+?\d{5,}$/)]),
-    start_date: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
+    name: new FormControl({value: '', disabled: false}, [Validators.required]),
+    email: new FormControl({value: '', disabled: false}, [Validators.required, Validators.email]),
+    phone: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern(/^\+?\d{5,}$/)]),
+    start_date: new FormControl({value: '', disabled: false}, [Validators.required]),
     end_date: new FormControl({value: '', disabled: true}, [Validators.required]),
-    message: new FormControl({value: '', disabled: this.email_sent}, [Validators.required]),
+    message: new FormControl({value: '', disabled: false}, [Validators.required]),
     calculated_price: new FormControl({value: '', disabled: false})
   })
 
@@ -76,11 +77,20 @@ export class ContactsComponent {
   }
 
   ngOnInit() {
-    if (localStorage.getItem("reservationSent")) {
+    if (localStorage.getItem("reservationInfo")) {
       this.email_failed = false
       this.email_sent = true
       this.emailForm.disable()
-      this.reservationInfo = localStorage.getItem("reservationSent")!
+      const reservationInfo = JSON.parse(localStorage.getItem("reservationInfo")!)
+      const filledForm = reservationInfo.filledForm
+      const calculatedPrices = reservationInfo.calculatedPrices
+      Object.keys(filledForm).forEach((key) => {
+        if (key in this.emailForm.controls) {
+          this.emailForm.controls[key as keyof typeof this.emailForm.controls].setValue(filledForm[key]);
+        }
+      });
+      this.calculatedPrice = calculatedPrices.calculated_price
+      this.discountedPrice = calculatedPrices.discounted_price
     }
     else {
       const credentialsSubscription = this.fetchEmailjsCredentials().subscribe({
@@ -291,6 +301,22 @@ export class ContactsComponent {
   public sendEmail(e: Event) {
     e.preventDefault();
     this.form_submitting = true;
+    const reservationInfo = {
+      'filledForm': {
+        'calculated_price': this.emailForm.controls.calculated_price.value,
+        'email': this.emailForm.controls.email.value,
+        'end_date': this.emailForm.controls.end_date.value,
+        'message': this.emailForm.controls.message.value,
+        'name': this.emailForm.controls.name.value,
+        'phone': this.emailForm.controls.phone.value,
+        'start_date': this.emailForm.controls.start_date.value
+      },
+      'calculatedPrices': {
+        'calculated_price': this.calculatedPrice,
+        'discounted_price': this.discountedPrice
+      }
+    }
+
     emailjs
       .sendForm(this.credentials!.service_id, this.credentials!.template_id, e.target as HTMLFormElement, {
         publicKey: this.credentials!.public_key,
@@ -301,7 +327,7 @@ export class ContactsComponent {
           this.email_sent = true
           this.form_submitting = false
           this.emailForm.disable()
-          localStorage.setItem("reservationSent", ` за периода от ${new Date(this.emailForm.controls.start_date.value!).toLocaleDateString("bg-BG")} до ${new Date(this.emailForm.controls.end_date.value!).toLocaleDateString("bg-BG")}`)
+          localStorage.setItem("reservationInfo", JSON.stringify(reservationInfo))
         },
         (error: any) => {
           this.email_failed = true

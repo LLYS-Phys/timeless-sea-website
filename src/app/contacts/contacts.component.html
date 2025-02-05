@@ -62,7 +62,7 @@
         <p class="discount">* При 7 или повече нощувки получавате отстъпка от 10% на крайната цена</p>
         <input formControlName="calculated_price" name="calculated_price" [disabled]="true" hidden>
         <section class="final-price">
-            @if (calculatedPrice && this.emailForm.controls.end_date.value != '' && this.emailForm.controls.end_date.valid) {
+            @if ((calculatedPrice && this.emailForm.controls.end_date.value != '' && this.emailForm.controls.end_date.valid) || email_sent == true) {
                 @if (discountedPrice) {
                     <div class="calculated" style="display: flex;">Цена за престой:&nbsp;
                         <div class="price-container">
@@ -89,7 +89,7 @@
         </div>
         @if (this.email_sent) {
             <div class="email-sent">
-                <p>Получихме вашата резервация{{reservationInfo}}!</p>
+                <p>Получихме вашата резервация!</p>
                 <p>Ще се свържем с вас скоро!</p>
             </div>
         }
