@@ -251,16 +251,15 @@ export class ContactsComponent {
     this.emailForm.controls.end_date.patchValue('')
     this.emailForm.controls.end_date.disable()
     const startDate = this.emailForm.controls.start_date.value;
+    // Calculate the minimum selectable end date (3 days after start date)
+    const minEndDate = new Date(startDate!)
+    minEndDate.setDate(minEndDate.getDate() + 3)
   
     if (this.emailForm.controls.start_date.valid && startDate) {
       this.emailForm.controls.end_date.enable();
   
-      // Ensure the end date picker opens on the selected month
-      this.pickerEndDate.startAt = startDate;
-  
-      // Calculate the minimum selectable end date (3 days after start date)
-      const minEndDate = new Date(startDate);
-      minEndDate.setDate(minEndDate.getDate() + 3);
+      // Ensure the end date picker opens on the first available date's month
+      this.pickerEndDate.startAt = minEndDate;
   
       // Find the first disabled date after the minEndDate
       let maxEndDate: Date | null = null;
