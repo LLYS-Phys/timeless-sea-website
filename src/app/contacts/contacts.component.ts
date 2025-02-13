@@ -77,11 +77,11 @@ export class ContactsComponent {
   }
 
   ngOnInit() {
-    if (localStorage.getItem("reservationInfo")) {
+    if (document.cookie.split('; ').some(cookie => cookie.startsWith('reservationInfo='))) {
       this.email_failed = false
       this.email_sent = true
       this.emailForm.disable()
-      const reservationInfo = JSON.parse(localStorage.getItem("reservationInfo")!)
+      const reservationInfo = JSON.parse(decodeURIComponent(document.cookie.split('; ').find(row => row.startsWith("reservationInfo="))!.split('=')[1]))
       const filledForm = reservationInfo.filledForm
       const calculatedPrices = reservationInfo.calculatedPrices
       Object.keys(filledForm).forEach((key) => {
@@ -327,7 +327,7 @@ export class ContactsComponent {
           this.email_sent = true
           this.form_submitting = false
           this.emailForm.disable()
-          localStorage.setItem("reservationInfo", JSON.stringify(reservationInfo))
+          document.cookie = `reservationInfo=${encodeURIComponent(JSON.stringify(reservationInfo))}; path=/; expires=${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toUTCString()}`;
         },
         (error: any) => {
           this.email_failed = true
