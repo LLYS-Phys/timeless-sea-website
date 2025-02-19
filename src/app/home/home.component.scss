@@ -7,8 +7,13 @@
         position: absolute;
         max-width: 80%;
         color: white;
-        top: 40%;
+        top: 20%;
         z-index: 1;
+        height: 70%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
         h1, h2 {
             font-family: 'Material Icons'; 
             font-style: oblique;
@@ -19,6 +24,24 @@
         }
         h2 {
             font-size: 2rem;
+            padding-bottom: 2rem;
+        }
+        button {
+            background-color: rgba(var(--darkblue));
+            color: white;
+            font-size: 1.25rem;
+            transition: filter 0.33s;
+            width: fit-content;
+            &:hover { 
+                mat-icon { 
+                    color: rgb(var(--red));
+                    animation: pulse 1s infinite; 
+                }
+            }
+            mat-icon {
+                transition: color 0.2s;
+                color: white;
+            }
         }
     }
     img {
@@ -27,25 +50,6 @@
         object-fit: cover;
         object-position: top;
         filter: brightness(0.75);
-    }
-    button {
-        position: absolute;
-        bottom: 15%;
-        background-color: rgba(var(--darkblue));
-        color: white;
-        font-size: 1.25rem;
-        transition: filter 0.33s;
-        max-width: 95%;
-        &:hover { 
-            mat-icon { 
-                color: rgb(var(--red));
-                animation: pulse 1s infinite; 
-            }
-        }
-        mat-icon {
-            transition: color 0.2s;
-            color: white;
-        }
     }
 }
 .information {
@@ -106,8 +110,10 @@
         flex-direction: column;
         align-items: center;
         .title-holder{
-            top: unset;
-            bottom: 30%;
+            top: 5%;
+            height: 80%;
+            max-width: 100%;
+            margin: 0 1rem;
             h1, h2{
                 margin-bottom: 0;
             }
