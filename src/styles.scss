@@ -47,3 +47,4 @@ html, body { height: 100%; }
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: var(--background-rgba); }
 body:has(.active-gallery) { overflow-y: hidden; }
+.iub__us-widget { display: none !important; }
