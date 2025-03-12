@@ -6,7 +6,8 @@ const app = express();
 // List of allowed origins
 const allowedOrigins = [
   'http://localhost:4200',
-  'https://llys-phys.github.io'
+  'https://llys-phys.github.io',
+  'https://67d19b06be559a000716e25f--timeless-sea-website.netlify.app/'
 ];
 
 // CORS configuration
