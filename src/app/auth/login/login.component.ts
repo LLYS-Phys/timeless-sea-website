@@ -12,12 +12,11 @@ import { MatInputModule } from '@angular/material/input';
 import { merge } from 'rxjs';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [ReactiveFormsModule, MatButton, MatIcon, RouterLink, MatFormFieldModule, MatInputModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-login',
+    imports: [ReactiveFormsModule, MatButton, MatIcon, RouterLink, MatFormFieldModule, MatInputModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit{
   constructor( private destroyRef: DestroyRef, private authService: AuthService, private router: Router ){

@@ -18,6 +18,8 @@
         h1, h2 {
             font-family: 'Material Icons'; 
             font-style: oblique;
+            font-weight: 500;
+            margin: 1rem;
         }
         h1 {
             font-size: 4rem;
@@ -78,6 +80,8 @@
             color: rgba(var(--text));
             p {
                 width: 80%;
+                margin: 0 0 1rem 0;
+                font-size: 2rem;
             }
             mat-icon {
                 line-height: 1.25;

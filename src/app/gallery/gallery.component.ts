@@ -8,11 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { GalleryComponent } from 'ng-gallery';
 
 @Component({
-  selector: 'app-gallery',
-  standalone: true,
-  imports: [GalleryModule, MatIconModule, MatButtonModule],
-  templateUrl: './gallery.component.html',
-  styleUrl: './gallery.component.scss'
+    selector: 'app-gallery',
+    imports: [GalleryModule, MatIconModule, MatButtonModule],
+    templateUrl: './gallery.component.html',
+    styleUrl: './gallery.component.scss'
 })
 export class GalleryPageComponent implements OnInit {
   @ViewChild(GalleryComponent) galleryComponent: GalleryComponent | null = null;

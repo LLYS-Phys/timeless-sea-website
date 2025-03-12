@@ -7,6 +7,9 @@
         font-family: 'Material Icons';
         text-align: center;
         width: 100%;
+        font-size: 2.812rem;
+        font-weight: 500;
+        margin-top: 0;
     }
     .platforms {
         justify-content: center;
@@ -85,6 +88,9 @@
             gap: 0.5rem;
             width: 75%;
             position: relative;
+            p {
+                margin-top: 0;
+            }
             .terms-and-conditions {
                 text-align: center;
                 margin-bottom: 1rem;
