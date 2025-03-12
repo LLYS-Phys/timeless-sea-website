@@ -31,6 +31,10 @@ export const routes: Routes = [
         children: userRoutes
     },
     {
+        path: 'terms-and-conditions',
+        loadComponent: () => import('./terms-and-conditions/terms-and-conditions.component').then((comp) => comp.TermsAndConditionsComponent)
+    },
+    {
         path: '**',
         redirectTo: ''
     }

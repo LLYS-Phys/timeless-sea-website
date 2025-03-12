@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, DestroyRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, signal, ViewChild } from '@angular/core';
 import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
 import { EmailJsType } from './contacts.model';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,6 +45,7 @@ export class ContactsComponent {
   discountedPrice: string | null = null
   periods: PeriodsType | null = null
   reservationForm: string | null = null
+  termsAndConditions = signal(false)
 
   emailForm = new FormGroup({
     name: new FormControl({value: '', disabled: false}, [Validators.required]),
@@ -52,7 +53,7 @@ export class ContactsComponent {
     phone: new FormControl({value: '', disabled: false}, [Validators.required, Validators.pattern(/^\+?\d{5,}$/)]),
     start_date: new FormControl({value: '', disabled: false}, [Validators.required]),
     end_date: new FormControl({value: '', disabled: true}, [Validators.required]),
-    message: new FormControl({value: '', disabled: false}, [Validators.required]),
+    message: new FormControl({value: '', disabled: false}),
     calculated_price: new FormControl({value: '', disabled: false})
   })
 
@@ -77,6 +78,8 @@ export class ContactsComponent {
   }
 
   ngOnInit() {
+    this.bookingService.loadBookedDates() // Reload booked data on page load
+
     if (document.cookie.split('; ').some(cookie => cookie.startsWith('reservationInfo='))) {
       this.email_failed = false
       this.email_sent = true
@@ -91,6 +94,7 @@ export class ContactsComponent {
       });
       this.calculatedPrice = calculatedPrices.calculated_price
       this.discountedPrice = calculatedPrices.discounted_price
+      this.termsAndConditions.set(true)
     }
     else {
       const credentialsSubscription = this.fetchEmailjsCredentials().subscribe({
@@ -152,6 +156,10 @@ export class ContactsComponent {
     this.destroyRef.onDestroy(() => {
       googleMapsCredential.unsubscribe()
     })
+  }
+
+  public termsAndConditionsCheckbox() {
+    this.termsAndConditions.update((oldValue) => oldValue == false ? true : false)
   }
 
   public endDateSelected() {

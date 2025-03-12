@@ -55,10 +55,11 @@
         <mat-form-field>
             <mat-label>Съобщение</mat-label>
             <textarea matInput formControlName="message" rows="5" name="message"></textarea>
-            @if (this.emailForm.controls.message.invalid && this.emailForm.controls.message.touched) {
-                <mat-error>Моля въведете вашето съобщение!</mat-error>
-            }
         </mat-form-field>
+        <label class="terms-and-conditions">
+            <input type="checkbox" (click)="termsAndConditionsCheckbox()" [disabled]="email_sent" [checked]="termsAndConditions()">
+            С изпращането на формата, приемам <a href="/terms-and-conditions" target="_blank"><span>Общите Условия</span></a>
+        </label>
         <p class="discount">* При 7 или повече нощувки получавате отстъпка от 10% на крайната цена</p>
         <input formControlName="calculated_price" name="calculated_price" [disabled]="true" hidden>
         <section class="final-price">
@@ -82,7 +83,7 @@
             }
         </section>
         <div class="button-container">
-            <button type="submit" [disabled]="buttonStatus || this.email_sent || this.form_submitting || this.emailForm.controls.end_date.value == ''" mat-fab aria-label="Submit Email Form">
+            <button type="submit" [disabled]="buttonStatus || this.email_sent || this.form_submitting || this.emailForm.controls.end_date.value == '' || termsAndConditions() == false" mat-fab aria-label="Submit Email Form">
                 <mat-icon>send</mat-icon>&nbsp;
                 Резервирай
             </button>

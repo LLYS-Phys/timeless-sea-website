@@ -85,6 +85,25 @@
             gap: 0.5rem;
             width: 75%;
             position: relative;
+            .terms-and-conditions {
+                text-align: center;
+                margin-bottom: 1rem;
+                a {
+                    text-decoration: none;
+                    color: rgb(var(--text));
+                    font-weight: 500;
+                    display: inline-block;
+                    span {
+                        padding-bottom: 0.25rem;
+                        background: linear-gradient(currentColor 0 0) bottom left / var(--underline-width, 0%) 0.1rem no-repeat;
+                        transition: background-size 0.5s;
+                        display: flex;
+                    }
+                    &:hover span{
+                        --underline-width: 100%;
+                    }
+                }
+            }
             .dates{
                 display: flex;
                 gap: 1rem;
@@ -252,6 +271,9 @@
             }
             form {
                 width: 100%;
+                .terms-and-conditions {
+                    text-align: justify;
+                }
                 .dates{
                     flex-direction: column;
                     mat-form-field{
