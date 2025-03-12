@@ -4,7 +4,8 @@ import { Component } from '@angular/core';
     selector: 'app-terms-and-conditions',
     imports: [],
     templateUrl: './terms-and-conditions.component.html',
-    styleUrl: './terms-and-conditions.component.scss'
+    styleUrl: './terms-and-conditions.component.scss',
+    standalone: true
 })
 export class TermsAndConditionsComponent {
 

@@ -7,7 +7,8 @@ import { LoginComponent } from '../login/login.component';
     selector: 'app-admin',
     imports: [RouterLink, LoginComponent],
     templateUrl: './admin.component.html',
-    styleUrl: './admin.component.scss'
+    styleUrl: './admin.component.scss',
+    standalone: true
 })
 export class AdminComponent implements OnInit {
   constructor( private authService: AuthService, private destroyRef: DestroyRef ){}

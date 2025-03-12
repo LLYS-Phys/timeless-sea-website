@@ -16,7 +16,8 @@ import { merge } from 'rxjs';
     imports: [ReactiveFormsModule, MatButton, MatIcon, RouterLink, MatFormFieldModule, MatInputModule],
     templateUrl: './login.component.html',
     styleUrl: './login.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
 })
 export class LoginComponent implements OnInit{
   constructor( private destroyRef: DestroyRef, private authService: AuthService, private router: Router ){

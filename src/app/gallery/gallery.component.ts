@@ -11,7 +11,8 @@ import { GalleryComponent } from 'ng-gallery';
     selector: 'app-gallery',
     imports: [GalleryModule, MatIconModule, MatButtonModule],
     templateUrl: './gallery.component.html',
-    styleUrl: './gallery.component.scss'
+    styleUrl: './gallery.component.scss',
+    standalone: true
 })
 export class GalleryPageComponent implements OnInit {
   @ViewChild(GalleryComponent) galleryComponent: GalleryComponent | null = null;

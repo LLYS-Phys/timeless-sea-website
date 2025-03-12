@@ -9,7 +9,8 @@ import { BookingService } from './booking.service';
     selector: 'app-root',
     imports: [RouterOutlet, HeaderComponent, FooterComponent],
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+    styleUrl: './app.component.scss',
+    standalone: true
 })
 export class AppComponent implements OnInit {
   title = 'timeless-sea';
