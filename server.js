@@ -7,11 +7,11 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:4200',
   'https://llys-phys.github.io',
-  'https://timeless-sea-website.netlify.app/',
-  'https://morskobezvremie.bg/',
-  'http://morskobezvremie.bg/',
-  'https://www.morskobezvremie.bg/',
-  'http://www.morskobezvremie.bg/'
+  'https://timeless-sea-website.netlify.app',
+  'https://morskobezvremie.bg',
+  'http://morskobezvremie.bg',
+  'https://www.morskobezvremie.bg',
+  'http://www.morskobezvremie.bg'
 ];
 
 // CORS configuration
